@@ -16,8 +16,6 @@ const MenuManagementPage = () => {
           </div>
         </div>
       </div>
-
-
     </>
   )
 }
