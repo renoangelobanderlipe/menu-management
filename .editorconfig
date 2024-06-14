@@ -1,0 +1,18 @@
+root = true
+
+[*]
+# Indentation
+indent_style = space
+indent_size = 2
+
+# Trim trailing whitespace
+trim_trailing_whitespace = true
+
+[*.{js,jsx,ts,tsx}]
+# JavaScript/React/TypeScript Specifics
+quote_type = single
+max_line_length = 120
+
+# Optional: Package.json specific formatting
+[package.json]
+indent_size = 2
