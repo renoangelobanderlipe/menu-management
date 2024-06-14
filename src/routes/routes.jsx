@@ -1,17 +1,24 @@
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import NotFound from "@components/ui/NotFound";
-import LoginPage from "../pages/en/Auth/LoginPage";
+
+const LoginPage = lazy(() => import("@pages/en/Auth/LoginPage"));
+const MenuManagementPage = lazy(() => import("@pages/en/MenuManagement/MenuManagementPage"));
 
 export const router = createBrowserRouter([
-   {
-    path: "/login",
-    element: <LoginPage />,
-    errorElement: (
-      <Suspense fallback={<div>Loading</div>}>
-        <NotFound />
+  {
+    path: "/",
+    element: (
+      <Suspense fallback={<div>Loading...</div>}>
+        <MenuManagementPage />
       </Suspense>
     ),
+    errorElement: (<NotFound />),
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
+    errorElement: (<NotFound />),
   },
   {
     path: "*",
