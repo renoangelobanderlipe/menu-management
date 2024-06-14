@@ -95,7 +95,11 @@ module.exports = withMT({
           900: "#62083A",
         },
       },
-
+      boxShadow: {
+        container:
+          "-8px 5px 7.8px -1px rgba(58, 206, 173, 0.03), 9px -1px 7.8px -1px rgba(71, 88, 224, 0.04)",
+        card: "5px 7px 9.8px -1px rgba(58, 206, 173, 0.1), -5px 2px 6.3px -2px rgba(58, 206, 173, 0.1)",
+      },
     },
 
   },
