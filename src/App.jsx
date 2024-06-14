@@ -1,11 +1,8 @@
-import { Typography } from '@material-tailwind/react'
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes/routes";
 
 const App = () => {
-    return (
-        <>
-      <Typography>ITS WORKING!!!</Typography>
-  </>
-    )
-}
+  return <RouterProvider router={router} />;
+};
 
-export default App
+export default App;
