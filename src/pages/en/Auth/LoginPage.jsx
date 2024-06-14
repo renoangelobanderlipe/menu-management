@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { NavLink, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -10,15 +11,42 @@ import {
 } from "@material-tailwind/react";
 import { useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
-import { loginSchema } from '@utils/validations';
+import { loginSchema } from "@utils/validations";
+import { toast } from "sonner";
+import { auth } from '@services/provider/firebaseConfig';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+
   const {
     register,
+    handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
-  } = useForm({ resolver: zodResolver(loginSchema) });
+  } = useForm({
+    resolver: zodResolver(loginSchema)
+  });
 
+  const navigate = useNavigate();
+
+  const onSubmit = async (params) => {
+    try {
+      await signInWithEmailAndPassword(
+        auth,
+        params.email,
+        params.password,
+      );
+
+      toast.success("Success");
+      navigate("/");
+    } catch (error) {
+      if (error.code === "auth/invalid-credential") {
+        setError("root", {
+          message: "Invalid email or password",
+        });
+      }
+    }
+  };
 
   return (
     <div className="bg-light-main-bg dark:bg-dark-main-bg lg:flex-row flex flex-col h-screen overflow-hidden">
@@ -42,6 +70,7 @@ const LoginPage = () => {
       </div>
       <div className="flex h-screen flex-col items-center lg:w-[30%]">
         <form
+          onSubmit={handleSubmit(onSubmit)}
           className="flex h-full w-full max-w-[288px] flex-col justify-center gap-[20px]"
         >
           <div className="lg:gap-14 flex flex-col items-center gap-12">
@@ -141,6 +170,11 @@ const LoginPage = () => {
               </NavLink>
             </div>
           </div>
+          {errors.root && (
+            <Alert variant="ghost" color="red">
+              {errors.root.message}
+            </Alert>
+          )}
           <Button fullWidth type="submit" disabled={isSubmitting} size="lg">
             {isSubmitting ? (
               <Icon
