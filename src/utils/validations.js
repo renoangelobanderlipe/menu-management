@@ -47,11 +47,8 @@ const menuItemSchema = z.object({
   options: z
     .string()
     .optional()
-    .transform((value) =>
-      value ? value.split(",").map((opt) => opt.trim()) : []
-    )
-    .refine((options) => options.length <= 4, {
-      message: "Maximum of 4 options allowed.",
+    .refine((val) => !val || val.split(",").map((o) => o.trim()).length <= 4, {
+      message: "You can add up to 4 options",
     }),
 });
 
