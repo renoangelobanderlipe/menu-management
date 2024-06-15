@@ -9,7 +9,7 @@ import {
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { useEffect, useState } from "react";
 
-const ProfileMenu = ({ items, onLogout }) => {
+const ProfileMenuComponent = ({ items, onLogout }) => {
   const [randomValue, setRandomValue] = useState(1);
 
   const handleRandomVal = () => {
@@ -62,4 +62,4 @@ const ProfileMenu = ({ items, onLogout }) => {
   );
 };
 
-export default ProfileMenu;
+export default ProfileMenuComponent;

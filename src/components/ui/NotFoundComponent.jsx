@@ -1,7 +1,7 @@
 import { Button, Typography } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
 
-const NotFound = () => {
+const NotFoundComponent = () => {
   const navigate = useNavigate();
 
   return (
@@ -27,4 +27,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundComponent;

@@ -1,9 +1,11 @@
-import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
+import { StrictMode } from "react";
+
 import { ThemeProvider } from "@material-tailwind/react";
 import { Toaster } from "sonner";
+
+import App from "./App";
+import "./index.css";
 import { theme } from "@services/provider/theme";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

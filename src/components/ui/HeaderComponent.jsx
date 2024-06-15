@@ -1,6 +1,6 @@
 import { Typography } from "@material-tailwind/react"
 
-const Header = ({ children }) => {
+const HeaderComponent = ({ children }) => {
   return (
     <div className="sm:flex-row sm:justify-between flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -18,4 +18,4 @@ const Header = ({ children }) => {
   )
 }
 
-export default Header
+export default HeaderComponent

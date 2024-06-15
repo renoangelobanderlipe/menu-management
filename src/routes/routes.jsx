@@ -1,6 +1,7 @@
 import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-import NotFound from "@components/ui/NotFound";
+
+import NotFoundComponent from "@components/ui/NotFoundComponent";
 
 const LoginPage = lazy(() => import("@pages/en/Auth/LoginPage"));
 const MenuManagementPage = lazy(() => import("@pages/en/MenuManagement/MenuManagementPage"));
@@ -13,17 +14,15 @@ export const router = createBrowserRouter([
         <MenuManagementPage />
       </Suspense>
     ),
-    errorElement: (<NotFound />),
+    errorElement: (<NotFoundComponent />),
   },
   {
     path: "/login",
     element: <LoginPage />,
-    errorElement: (<NotFound />),
+    errorElement: (<NotFoundComponent />),
   },
   {
     path: "*",
-    element: <NotFound />,
+    element: <NotFoundComponent />,
   },
 ]);
-
-export default router;

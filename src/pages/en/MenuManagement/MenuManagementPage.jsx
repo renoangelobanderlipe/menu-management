@@ -1,21 +1,48 @@
-import Navbar from "@components/Navbar"
-import MenuHeader from '@components/MenuHeader';
-import { useState } from "react";
+import { useEffect } from "react";
+import { getDatabase, limitToFirst, onValue, query, ref } from "firebase/database";
+
+import { app } from "@services/provider/firebaseConfig";
+import { useMenuStore } from "@services/state/store";
+
+import { MenuContainer, NavbarComponent, MenuHeader, TableMenuComponent } from '@components/index';
 
 const MenuManagementPage = () => {
-  const [menuItems, setMenuItems] = useState([]);
+  const setMenuList = useMenuStore((state) => state.setMenuList);
+  const sortOrder = 'asc';
+
+  const pageSize = 5;
+
+  useEffect(() => {
+    const db = getDatabase(app);
+    const dbRef = ref(db, "menus");
+
+    const initialQuery = query(dbRef, limitToFirst(pageSize))
+    // onValue for real-time updates
+    onValue(initialQuery, (snapshot) => {
+      if (snapshot.exists()) {
+        let items = Object.values(snapshot.val());
+        if (sortOrder === "asc") {
+          items.reverse();
+        }
+        setMenuList(items);
+      } else {
+        setMenuList([]);
+      }
+    });
+  }, [setMenuList, sortOrder]);
 
   return (
     <>
-      <div className="bg-light-main-bg dark:bg-dark-main-bg lg:gap-12 lg:px-20 lg:py-6 2xl:h-screen flex items-start justify-center w-full p-6">
-        {/* contents */}
-        <div className="flex w-full flex-col gap-12 lg:max-w-[1120px] 2xl:max-w-[1440px]">
-          <Navbar />
-          <div className="lg:gap-12 flex flex-col justify-between gap-8">
-            <MenuHeader menuItem={setMenuItems} />
-          </div>
+      <MenuContainer>
+        {/* Navbar */}
+        <NavbarComponent />
+
+        <div className="lg:gap-12 flex flex-col justify-between gap-8">
+          <MenuHeader />
+          {/* Table */}
+          <TableMenuComponent />
         </div>
-      </div>
+      </MenuContainer>
     </>
   )
 }

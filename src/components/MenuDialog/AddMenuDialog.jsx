@@ -1,9 +1,17 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
+
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { Avatar, Button, Dialog, IconButton, Input, Typography } from "@material-tailwind/react";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { menuItemSchema } from "../utils/validations";
-import { useState } from "react";
+import { menuItemSchema } from "@utils/validations";
+import { toast } from "sonner";
+import { v4 } from "uuid";
+
+import { storage } from "@services/provider/firebaseConfig";
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { getDatabase, push, ref as refRtd, set } from "firebase/database";
 
 const AddMenuDialog = ({ handleOpen, open }) => {
   const {
@@ -15,6 +23,7 @@ const AddMenuDialog = ({ handleOpen, open }) => {
   } = useForm({
     resolver: zodResolver(menuItemSchema),
   });
+
   const [selectedImage, setSelectedImage] = useState(null);
 
   const handleImageChange = (event) => {
@@ -31,8 +40,31 @@ const AddMenuDialog = ({ handleOpen, open }) => {
   };
 
   const onSubmit = async (data) => {
-    //
-  }
+    try {
+      const db = getDatabase();
+
+      let imageUrl = null;
+      if (data.image) {
+        const storageRef = ref(storage, `menu-items/${data.image.name + v4()}`);
+        const snapshot = await uploadBytes(storageRef, data.image);
+        imageUrl = await getDownloadURL(snapshot.ref);
+      }
+
+      const newMenuItemRef = push(refRtd(db, "menus"));
+      await set(newMenuItemRef, {
+        id: newMenuItemRef.key,
+        ...data,
+        imageUrl: imageUrl,
+      });
+
+      toast.success("Menu item added successfully!");
+      handleOpen(null);
+      reset();
+    } catch (error) {
+      console.error("Error adding menu item:", error);
+      toast.error("An error occurred while adding the menu item.");
+    }
+  };
 
   return (
     <>
@@ -206,7 +238,6 @@ const AddMenuDialog = ({ handleOpen, open }) => {
               </div>
             </div>
 
-            {/*  */}
             <div className="flex flex-row justify-end w-full gap-3 p-0">
               <Button
                 onClick={handleOpen}

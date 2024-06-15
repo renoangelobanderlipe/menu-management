@@ -8,7 +8,8 @@ import { signOut } from "firebase/auth";
 import { Icon } from "@iconify/react/dist/iconify.js";
 import { toast } from "sonner";
 import { auth } from '@services/provider/firebaseConfig';
-import ProfileMenu from "./ui/ProfileMenu";
+
+import { ProfileMenuComponent } from "@components/ui";
 
 const profileMenuItems = [
   {
@@ -21,7 +22,7 @@ const profileMenuItems = [
   },
 ];
 
-const Navbar = () => {
+const NavbarComponent = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
 
@@ -84,7 +85,7 @@ const Navbar = () => {
             </IconButton>
 
             {/* Profile Menu */}
-            <ProfileMenu items={profileMenuItems} onLogout={handleLogout} />
+            <ProfileMenuComponent items={profileMenuItems} onLogout={handleLogout} />
 
           </div>
         </div>
@@ -93,4 +94,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarComponent;
