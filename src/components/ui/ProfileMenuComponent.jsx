@@ -1,13 +1,6 @@
-import {
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
-  Typography,
-} from "@material-tailwind/react";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useEffect, useState } from "react";
+import { Menu, MenuHandler, MenuList, MenuItem, Avatar, Typography } from '@material-tailwind/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { useEffect, useState } from 'react';
 
 const ProfileMenuComponent = ({ items, onLogout }) => {
   const [randomValue, setRandomValue] = useState(1);
@@ -38,20 +31,14 @@ const ProfileMenuComponent = ({ items, onLogout }) => {
             <MenuItem
               key={index}
               onClick={isLastItem ? onLogout : null}
-              className={`${isLastItem
-                ? "hover:bg-danger-500/10 focus:bg-danger-500/10 active:bg-danger-500/10"
-                : "hover:bg-primary-100 hover:text-primary-500 focus:bg-primary-100 active:bg-primary-100"
-                }`}
+              className={`${
+                isLastItem
+                  ? 'hover:bg-danger-500/10 focus:bg-danger-500/10 active:bg-danger-500/10'
+                  : 'hover:bg-primary-100 hover:text-primary-500 focus:bg-primary-100 active:bg-primary-100'
+              }`}
             >
-              <Icon
-                icon={item.icon}
-                className={`h-5 w-5 ${isLastItem ? "text-danger-500" : "text-inherit"}`}
-              />
-              <Typography
-                variant="paragraph"
-                className="font-semibold"
-                color={isLastItem ? "red" : "inherit"}
-              >
+              <Icon icon={item.icon} className={`h-5 w-5 ${isLastItem ? 'text-danger-500' : 'text-inherit'}`} />
+              <Typography variant="paragraph" className="font-semibold" color={isLastItem ? 'red' : 'inherit'}>
                 {item.label}
               </Typography>
             </MenuItem>

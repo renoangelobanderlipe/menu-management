@@ -1,28 +1,28 @@
-import { Suspense, lazy } from "react";
-import { createBrowserRouter } from "react-router-dom";
+import { Suspense, lazy } from 'react';
+import { createBrowserRouter } from 'react-router-dom';
 
-import NotFoundComponent from "@components/ui/NotFoundComponent";
+import NotFoundComponent from '@components/ui/NotFoundComponent';
 
-const LoginPage = lazy(() => import("@pages/en/Auth/LoginPage"));
-const MenuManagementPage = lazy(() => import("@pages/en/MenuManagement/MenuManagementPage"));
+const LoginPage = lazy(() => import('@pages/en/Auth/LoginPage'));
+const MenuManagementPage = lazy(() => import('@pages/en/MenuManagement/MenuManagementPage'));
 
 export const router = createBrowserRouter([
   {
-    path: "/",
+    path: '/',
     element: (
       <Suspense fallback={<div>Loading...</div>}>
         <MenuManagementPage />
       </Suspense>
     ),
-    errorElement: (<NotFoundComponent />),
+    errorElement: <NotFoundComponent />,
   },
   {
-    path: "/login",
+    path: '/login',
     element: <LoginPage />,
-    errorElement: (<NotFoundComponent />),
+    errorElement: <NotFoundComponent />,
   },
   {
-    path: "*",
+    path: '*',
     element: <NotFoundComponent />,
   },
 ]);

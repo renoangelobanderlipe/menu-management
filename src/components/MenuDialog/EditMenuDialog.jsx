@@ -1,16 +1,11 @@
-import { Icon } from '@iconify/react/dist/iconify.js'
-import { Avatar, Button, Dialog, IconButton, Input, Typography } from '@material-tailwind/react'
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Avatar, Button, Dialog, IconButton, Input, Typography } from '@material-tailwind/react';
 
 const EditMenuDialog = ({ handleOpen, open }) => {
   return (
     <>
-      <Dialog
-        size="sm"
-        open={open}
-        handler={handleOpen}
-        className="overflow-auto"
-      >
-        <div className="flex flex-col w-full gap-6">
+      <Dialog size="sm" open={open} handler={handleOpen} className="overflow-auto">
+        <div className="flex w-full flex-col gap-6">
           <div className="flex flex-col gap-2">
             <Typography variant="h3" className="font-bold" color="black">
               Edit Menu Item
@@ -22,7 +17,7 @@ const EditMenuDialog = ({ handleOpen, open }) => {
 
           {/*  */}
           <div className="grid h-[300px] w-full grid-cols-2 gap-6 overflow-scroll md:h-[500px] lg:h-full lg:overflow-hidden">
-            <div className="flex flex-col col-span-2 gap-2">
+            <div className="col-span-2 flex flex-col gap-2">
               <Typography variant="h5" color="black">
                 Item Image
               </Typography>
@@ -47,9 +42,9 @@ const EditMenuDialog = ({ handleOpen, open }) => {
                 <IconButton
                   variant="text"
                   color="red"
-                //   onClick={}
+                  //   onClick={}
                 >
-                  <Icon icon="ph:trash-duotone" className="w-5 h-5" />
+                  <Icon icon="ph:trash-duotone" className="h-5 w-5" />
                 </IconButton>
               </label>
               {/* <input
@@ -70,11 +65,7 @@ const EditMenuDialog = ({ handleOpen, open }) => {
               <Typography variant="h5" color="black">
                 Select A Category
               </Typography>
-              <Input
-                label="Email"
-                size="lg"
-                placeholder="Add up to 3 categories, separated by commas"
-              />
+              <Input label="Email" size="lg" placeholder="Add up to 3 categories, separated by commas" />
             </div>
 
             <div className="flex flex-col gap-2">
@@ -102,32 +93,23 @@ const EditMenuDialog = ({ handleOpen, open }) => {
               <Typography variant="h5" color="black">
                 Options Available
               </Typography>
-              <Input
-                label="Email"
-                size="lg"
-                placeholder="Add up to 4 options, separated by commas"
-              />
+              <Input label="Email" size="lg" placeholder="Add up to 4 options, separated by commas" />
             </div>
           </div>
 
           {/*  */}
-          <div className="flex flex-row justify-end w-full gap-3 p-0">
-            <Button
-              onClick={handleOpen}
-              className=""
-              variant="text"
-              color="gray"
-            >
+          <div className="flex w-full flex-row justify-end gap-3 p-0">
+            <Button onClick={handleOpen} className="" variant="text" color="gray">
               Cancel
             </Button>
-            <Button className="md:w-fit w-full" onClick={handleOpen}>
+            <Button className="w-full md:w-fit" onClick={handleOpen}>
               Save Menu Item
             </Button>
           </div>
         </div>
       </Dialog>
     </>
-  )
-}
+  );
+};
 
-export default EditMenuDialog
+export default EditMenuDialog;

@@ -1,13 +1,11 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getStorage } from "firebase/storage";
-
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getStorage } from 'firebase/storage';
 
 // **Security Note:** Exposing Firebase configuration directly in client-side code is not recommended
 // for production environments. Consider using a secure backend service to interact with Firebase
 // and provide the necessary data/functionality to the frontend.
-
 
 // Initialize Firebase
 const firebaseConfig = {

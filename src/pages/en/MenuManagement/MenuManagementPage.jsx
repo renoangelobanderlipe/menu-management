@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import { getDatabase, limitToFirst, onValue, query, ref } from "firebase/database";
+import { useEffect } from 'react';
+import { getDatabase, limitToFirst, onValue, query, ref } from 'firebase/database';
 
-import { app } from "@services/provider/firebaseConfig";
-import { useMenuStore } from "@services/state/store";
+import { app } from '@services/provider/firebaseConfig';
+import { useMenuStore } from '@services/state/store';
 
 import { MenuContainer, NavbarComponent, MenuHeader, TableMenuComponent } from '@components/index';
 
@@ -14,14 +14,14 @@ const MenuManagementPage = () => {
 
   useEffect(() => {
     const db = getDatabase(app);
-    const dbRef = ref(db, "menus");
+    const dbRef = ref(db, 'menus');
 
-    const initialQuery = query(dbRef, limitToFirst(pageSize))
+    const initialQuery = query(dbRef, limitToFirst(pageSize));
     // onValue for real-time updates
     onValue(initialQuery, (snapshot) => {
       if (snapshot.exists()) {
         let items = Object.values(snapshot.val());
-        if (sortOrder === "asc") {
+        if (sortOrder === 'asc') {
           items.reverse();
         }
         setMenuList(items);
@@ -37,14 +37,14 @@ const MenuManagementPage = () => {
         {/* Navbar */}
         <NavbarComponent />
 
-        <div className="lg:gap-12 flex flex-col justify-between gap-8">
+        <div className="flex flex-col justify-between gap-8 lg:gap-12">
           <MenuHeader />
           {/* Table */}
           <TableMenuComponent />
         </div>
       </MenuContainer>
     </>
-  )
-}
+  );
+};
 
-export default MenuManagementPage
+export default MenuManagementPage;
