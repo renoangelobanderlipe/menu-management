@@ -11,6 +11,7 @@ import TableHeaderComponent from '@components/MenuTable/TableHeaderComponent';
 import TableBodyComponent from '@components/MenuTable/TableBodyComponent';
 import { GridDisplayComponent, PaginationComponent } from '@components/ui';
 import { searchFields } from '@utils/constants';
+import AuthLayout from '../Layout/AuthLayout';
 
 const MenuManagementPage = () => {
   const [activeDisplay, setActiveDisplay] = useState(false);
@@ -75,19 +76,19 @@ const MenuManagementPage = () => {
   const totalPages = Math.ceil(allMenuItems.length / pageSize);
 
   return (
-    <>
+    <AuthLayout>
       <MenuContainer>
         {/* Navbar */}
         <NavbarComponent />
 
-        <div className="flex flex-col justify-between gap-8 lg:gap-12">
+        <div className="lg:gap-12 flex flex-col justify-between gap-8">
           <MenuHeader />
           {/* Table */}
           <Card
             className="min-h-[450px] gap-6 p-6 md:min-h-[500px] lg:min-h-[300px] 2xl:min-h-[650px]"
             color="transparent"
           >
-            <div className="flex flex-col justify-between md:flex-row">
+            <div className="md:flex-row flex flex-col justify-between">
               {/* Display Table Actions */}
               <TableActionComponent setActiveDisplay={setActiveDisplay} activeDisplay={activeDisplay} />
             </div>
@@ -105,7 +106,7 @@ const MenuManagementPage = () => {
             {/* For Grid View */}
             <GridDisplayComponent activeDisplay={activeDisplay} />
 
-            <CardFooter className="flex items-center justify-end border-t border-neutrals-200 p-0 pt-4 dark:border-neutrals-700">
+            <CardFooter className="border-neutrals-200 dark:border-neutrals-700 flex items-center justify-end p-0 pt-4 border-t">
               <PaginationComponent
                 currentPage={currentPage}
                 totalPages={totalPages}
@@ -116,7 +117,7 @@ const MenuManagementPage = () => {
           </Card>
         </div>
       </MenuContainer>
-    </>
+    </AuthLayout>
   );
 };
 

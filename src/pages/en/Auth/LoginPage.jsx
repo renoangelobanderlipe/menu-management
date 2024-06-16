@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -8,10 +8,12 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { loginSchema } from '@utils/validations';
 import { toast } from 'sonner';
 import { auth } from '@services/provider/firebaseConfig';
+import useAuth from '../../../hooks/useAuth';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const {
     register,
@@ -35,6 +37,12 @@ const LoginPage = () => {
       }
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-light-main-bg dark:bg-dark-main-bg lg:flex-row">
