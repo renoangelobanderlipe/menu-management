@@ -8,18 +8,17 @@ const loginSchema = z.object({
 const menuItemSchema = z.object({
   image: z
     .any()
+    .optional()
+    .nullable()
     .refine(
       (file) => {
         if (file instanceof File) {
           return file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml';
-        } else if (file) {
-          return false;
         }
-        return true;
+        return true; // Allow null or undefined
       },
       { message: 'Invalid file type. Please upload JPG, PNG, or SVG.' },
-    )
-    .optional(),
+    ),
   itemName: z.string().min(1, 'Item name is required'),
   category: z
     .string()
