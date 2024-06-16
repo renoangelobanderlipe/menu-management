@@ -1,17 +1,19 @@
+import { useState } from 'react';
+
 import { Avatar, Chip, IconButton, Progress, Tooltip, Typography } from '@material-tailwind/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { useState } from 'react';
+
 import { useMenuStore } from '@services/state/store';
 import { currencyFormatter } from '@utils/formatter';
+
 import { EditMenuDialog, DeleteMenuDialog } from '@components/index';
+import { calculateProgressColor } from '@utils/utils';
 
 const TableBodyComponent = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
-  // Store the ID to the state
   const setMenuId = useMenuStore((state) => state.setMenuId);
-  // access the menu list in the state
   const menuList = useMenuStore((state) => state.menuList);
 
   const handleOpenEdit = (data) => {
@@ -22,16 +24,6 @@ const TableBodyComponent = () => {
   const handleOpenDelete = (id) => {
     setMenuId(id);
     setOpenDelete((cur) => !cur);
-  };
-
-  const calculateProgressColor = (amountInStock) => {
-    const percentageInStock = (amountInStock / 100) * 100;
-
-    if (percentageInStock === 0) return 'red';
-    if (percentageInStock <= 25) return 'pink';
-    if (percentageInStock <= 50) return 'yellow';
-    if (percentageInStock <= 75) return 'blue';
-    return 'green';
   };
 
   return (
@@ -95,7 +87,7 @@ const TableBodyComponent = () => {
               </td>
               <td className={classes}>
                 <Typography variant="h5" color="black">
-                  {row.cost}
+                  {currencyFormatter.format(row.cost)}
                 </Typography>
               </td>
               <td className={classes}>
