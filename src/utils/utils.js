@@ -26,4 +26,8 @@ const calculateProgressColor = (amountInStock) => {
   return 'green';
 };
 
-export { exportToCsv, calculateProgressColor };
+const handleExport = (data, fileName) => {
+  exportToCsv(data, fileName);
+};
+
+export { exportToCsv, calculateProgressColor, handleExport };
