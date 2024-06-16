@@ -3,20 +3,33 @@ import DeleteMenuDialog from '../MenuDialog/DeleteMenuDialog';
 import { useState } from 'react';
 import { useMenuStore } from '../../services/state/store';
 import EditMenuDialog from '../MenuDialog/EditMenuDialog';
+import { calculateProgressColor } from '@utils/utils';
+import { currencyFormatter } from '@utils/formatter';
 
-const GridDisplayComponent = ({ activeDisplay }) => {
+const GridDisplayComponent = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [editId, setEditId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
   const menuList = useMenuStore((state) => state.menuList);
 
-  const handleOpenEdit = () => setOpenEdit((cur) => !cur);
-  const handleOpenDelete = () => setOpenDelete((cur) => !cur);
+  const handleOpenEdit = (data) => {
+    setEditId(data.id);
+    setOpenEdit((cur) => !cur);
+  };
+
+  const handleOpenDelete = (id) => {
+    setDeleteId(id);
+    setOpenDelete((cur) => !cur);
+  };
 
   return (
     <>
-      <div className={`${activeDisplay ? 'hidden md:grid' : 'hidden'} grid-cols-4 gap-6`}>
+      <div className={`grid-cols-4 gap-6 md:grid`}>
         {menuList?.map((row, index) => {
+          const amountInStock = row.amountInStock || 0;
+          const progressColor = calculateProgressColor(amountInStock);
           return (
             <Card key={index} color="white" className="group relative flex flex-col gap-4 p-6">
               <Avatar src={row?.imageUrl} alt="avatar" variant="rounded" className="h-[180px] w-full" size="lg" />
@@ -27,16 +40,11 @@ const GridDisplayComponent = ({ activeDisplay }) => {
                     <Typography variant="h4" color="black">
                       {row.itemName}
                     </Typography>
-                    <div className="flex gap-2">
-                      {row?.options_available?.map((item, index) => (
-                        <Chip
-                          key={index}
-                          size="sm"
-                          value={item}
-                          color="cyan"
-                          className="rounded-full py-0.5 text-[10.5px]"
-                        />
-                      ))}
+                    <div className="grid">
+                      {row?.options &&
+                        row.options
+                          .split(',')
+                          .map((option, index) => <Chip className='w-fit' key={index} size="sm" value={option.trim()} />)}
                     </div>
                   </div>
                   <div className="flex flex-col gap-2">
@@ -53,7 +61,7 @@ const GridDisplayComponent = ({ activeDisplay }) => {
                         Cost (USD)
                       </Typography>
                       <Typography variant="paragraph" color="red">
-                        {row.cost}
+                        {currencyFormatter.format(row.cost)}
                       </Typography>
                     </div>
                   </div>
@@ -61,29 +69,29 @@ const GridDisplayComponent = ({ activeDisplay }) => {
               </div>
               <div className="flex flex-col">
                 <Progress
-                  value={row.amount_in_stock}
+                  value={amountInStock}
                   size="sm"
-                  color={row.amount_in_stock <= 50 ? 'yellow' : 'green'}
-                  className={`${row.amount_in_stock == 0 ? '!bg-danger-200' : '!bg-blue-gray-50'} mb-2`}
+                  color={progressColor}
+                  className={`${amountInStock === 0 ? 'hidden' : 'block'} mb-2`}
                 />
                 <div className="flex gap-1">
                   <Typography
                     variant="small"
-                    color={row.amount_in_stock <= 50 ? 'yellow' : 'green'}
-                    className={`${row.amount_in_stock == 0 ? 'text-danger-500' : 'block'} font-bold`}
+                    color={row.amountInStock <= 50 ? 'yellow' : 'green'}
+                    className={`${row.amountInStock == 0 ? 'text-danger-500' : 'block'} font-bold`}
                   >
-                    {row.amount_in_stock}
+                    {row.amountInStock}
                   </Typography>
                   <Typography variant="small" color="gray">
                     in stock
                   </Typography>
                 </div>
               </div>
-              <div className="absolute left-0 top-0 hidden h-full w-full flex-col items-center justify-center gap-4 rounded-lg px-12 backdrop-blur-sm group-hover:flex group-hover:bg-primary-900/80">
-                <Button fullWidth onClick={handleOpenEdit}>
+              <div className="backdrop-blur-sm group-hover:flex group-hover:bg-primary-900/80 absolute top-0 left-0 flex-col items-center justify-center hidden w-full h-full gap-4 px-12 rounded-lg">
+                <Button fullWidth onClick={() => handleOpenEdit(row)}>
                   Edit Menu Item
                 </Button>
-                <Button fullWidth color="red" className="bg-danger-100 text-danger-500" onClick={handleOpenDelete}>
+                <Button fullWidth color="red" className="bg-danger-100 text-danger-500" onClick={() => handleOpenDelete(row.id)}>
                   Delete Menu Item
                 </Button>
               </div>
@@ -92,8 +100,8 @@ const GridDisplayComponent = ({ activeDisplay }) => {
         })}
       </div>
 
-      <EditMenuDialog handleOpen={handleOpenEdit} open={openEdit} />
-      <DeleteMenuDialog handleOpen={handleOpenDelete} open={openDelete} />
+      <EditMenuDialog id={editId} handleOpen={handleOpenEdit} open={openEdit} />
+      <DeleteMenuDialog id={deleteId} handleOpen={handleOpenDelete} open={openDelete} />
     </>
   );
 };

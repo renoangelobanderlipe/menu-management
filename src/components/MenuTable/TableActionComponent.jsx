@@ -5,14 +5,14 @@ import { useMenuStore } from '@services/state/store';
 import { handleExport } from '@utils/utils';
 import useTableFilters from '@hooks/useTableFilter';
 
-const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
+const TableActionComponent = ({ setIsListView, isListView }) => {
   const { setSortOrder, debouncedSetSearchQuery } = useTableFilters();
   const menuList = useMenuStore((state) => state.menuList);
 
   return (
     <>
-      <div className="md:flex-row flex flex-col items-center w-full gap-6">
-        <div className="lg:flex-row flex flex-col gap-6">
+      <div className="flex w-full flex-col items-center gap-6 md:flex-row">
+        <div className="flex flex-col gap-6 lg:flex-row">
           <KbdComponent onChange={(e) => debouncedSetSearchQuery(e.target.value)} />
           <Select
             size="lg"
@@ -28,24 +28,24 @@ const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
             <Option value="desc">Descending</Option>
           </Select>
         </div>
-        <div className="md:flex md:flex-row grid items-center w-full grid-cols-2 gap-2">
+        <div className="grid w-full grid-cols-2 items-center gap-2 md:flex md:flex-row">
           <Button
             variant="text"
             size="md"
-            className="md:w-fit w-full col-span-1"
+            className="col-span-1 w-full md:w-fit"
             onClick={() => handleExport(menuList, 'menus.csv')}
           >
-            <Icon icon="ph:export-duotone" className="text-primary-500 w-5 h-5" />
+            <Icon icon="ph:export-duotone" className="h-5 w-5 text-primary-500" />
             Export
           </Button>
         </div>
       </div>
-      <div className="md:flex hidden">
-        <IconButton color={activeDisplay ? 'gray' : 'green'} onClick={() => setActiveDisplay(!activeDisplay)}>
-          <Icon icon="ph:rows-duotone" className="w-5 h-5" />
+      <div className="hidden md:flex">
+        <IconButton color={isListView ? 'green' : 'gray'} onClick={() => setIsListView(true)}>
+          <Icon icon="ph:rows-duotone" className="h-5 w-5" />
         </IconButton>
-        <IconButton color={activeDisplay ? 'green' : 'gray'} onClick={() => setActiveDisplay(!activeDisplay)}>
-          <Icon icon="ph:grid-four-duotone" className="w-5 h-5" />
+        <IconButton color={isListView ? 'gray' : 'green'} onClick={() => setIsListView(false)}>
+          <Icon icon="ph:grid-four-duotone" className="h-5 w-5" />
         </IconButton>
       </div>
     </>

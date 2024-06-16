@@ -4,18 +4,17 @@ import { getDatabase, ref, remove } from 'firebase/database';
 import { app } from '../../services/provider/firebaseConfig';
 import { toast } from 'sonner';
 
-const DeleteMenuDialog = ({ handleOpen, open }) => {
-  const menuId = useMenuStore((state) => state.menuId);
+const DeleteMenuDialog = ({ id, handleOpen, open }) => {
   const handleDelete = async () => {
     try {
-      if (!menuId) {
+      if (!id) {
         toast.error('No menu item selected for deletion.');
         handleOpen();
         return;
       }
 
       const db = getDatabase(app);
-      const dbRef = ref(db, `menus/${menuId}`);
+      const dbRef = ref(db, `menus/${id}`);
       await remove(dbRef);
 
       useMenuStore.getState().clearMenuId();

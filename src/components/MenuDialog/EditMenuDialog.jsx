@@ -8,8 +8,8 @@ import { useEffect } from 'react';
 import FormInput from '../Input/FormInput';
 import ImageUploader from '../ImageUploader';
 
-const EditMenuDialog = ({ itemId, handleOpen, open }) => {
-  const { itemData, imageData, setImageData, uploadImage, updateItem, deleteImage } = useMenuItem(itemId);
+const EditMenuDialog = ({ id, handleOpen, open }) => {
+  const { itemData, imageData, setImageData, uploadImage, updateItem, deleteImage } = useMenuItem(id);
 
   const {
     register,

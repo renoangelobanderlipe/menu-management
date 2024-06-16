@@ -12,18 +12,18 @@ import { calculateProgressColor } from '@utils/utils';
 const TableBodyComponent = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [itemId, setItemId] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const setMenuId = useMenuStore((state) => state.setMenuId);
   const menuList = useMenuStore((state) => state.menuList);
 
   const handleOpenEdit = (data) => {
-    setItemId(data.id);
+    setEditId(data.id);
     setOpenEdit((cur) => !cur);
   };
 
   const handleOpenDelete = (id) => {
-    setMenuId(id);
+    setDeleteId(id);
     setOpenDelete((cur) => !cur);
   };
 
@@ -50,7 +50,7 @@ const TableBodyComponent = () => {
                 </div>
               </td>
               <td className={classes}>
-                <div className="flex w-max gap-2">
+                <div className="w-max flex gap-2">
                   {row?.options &&
                     row.options.split(',').map((option, index) => <Chip key={index} size="sm" value={option.trim()} />)}
                 </div>
@@ -95,12 +95,12 @@ const TableBodyComponent = () => {
                 <div>
                   <Tooltip content="Delete" placement="left">
                     <IconButton variant="text" color="red" onClick={() => handleOpenDelete(row.id)}>
-                      <Icon icon="ph:trash-duotone" className="h-5 w-5" />
+                      <Icon icon="ph:trash-duotone" className="w-5 h-5" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip content="Edit" placement="right">
                     <IconButton variant="text" color="green" onClick={() => handleOpenEdit(row)}>
-                      <Icon icon="ph:note-pencil-duotone" className="h-5 w-5" />
+                      <Icon icon="ph:note-pencil-duotone" className="w-5 h-5" />
                     </IconButton>
                   </Tooltip>
                 </div>
@@ -110,8 +110,8 @@ const TableBodyComponent = () => {
         })}
       </tbody>
 
-      <EditMenuDialog itemId={itemId} handleOpen={handleOpenEdit} open={openEdit} />
-      <DeleteMenuDialog handleOpen={handleOpenDelete} open={openDelete} />
+      <EditMenuDialog id={editId} handleOpen={handleOpenEdit} open={openEdit} />
+      <DeleteMenuDialog id={deleteId} handleOpen={handleOpenDelete} open={openDelete} />
     </>
   );
 };

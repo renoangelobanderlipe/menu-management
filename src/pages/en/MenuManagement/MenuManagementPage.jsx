@@ -6,18 +6,16 @@ import { MenuContainer, NavbarComponent, MenuHeader } from '@components/index';
 import Fuse from 'fuse.js';
 import { useTableFiltersStore } from '@services/state/store';
 import { Card, CardFooter } from '@material-tailwind/react';
-import TableActionComponent from '@components/MenuTable/TableActionComponent';
-import TableHeaderComponent from '@components/MenuTable/TableHeaderComponent';
-import TableBodyComponent from '@components/MenuTable/TableBodyComponent';
+import {TableActionComponent,TableHeaderComponent, TableBodyComponent} from '@components/index.js';
 import { GridDisplayComponent, PaginationComponent } from '@components/ui';
 import { searchFields } from '@utils/constants';
 import AuthLayout from '../Layout/AuthLayout';
 
 const MenuManagementPage = () => {
-  const [activeDisplay, setActiveDisplay] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [allMenuItems, setAllMenuItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
+  const [isListView, setIsListView] = useState(true);
 
   const setMenuList = useMenuStore((state) => state.setMenuList);
   const sortOrder = useTableFiltersStore((state) => state.sortOrder);
@@ -90,21 +88,23 @@ const MenuManagementPage = () => {
           >
             <div className="md:flex-row flex flex-col justify-between">
               {/* Display Table Actions */}
-              <TableActionComponent setActiveDisplay={setActiveDisplay} activeDisplay={activeDisplay} />
+              <TableActionComponent setIsListView={setIsListView} isListView={isListView} />
             </div>
 
             {/* Table Display */}
-            <div
-              className={`${activeDisplay ? 'hidden' : 'block'} min-h-[100px] w-full overflow-scroll p-0 lg:min-h-[200px] lg:overflow-auto 2xl:min-h-[450px]`}
-            >
-              <table className="overflow-x min-h-[100px] w-full min-w-max table-auto scroll-auto rounded-t-lg text-left">
-                <TableHeaderComponent />
-                <TableBodyComponent />
-              </table>
-            </div>
 
-            {/* For Grid View */}
-            <GridDisplayComponent activeDisplay={activeDisplay} />
+            {isListView ? (
+              <div
+                className={`min-h-[100px] w-full overflow-scroll p-0 lg:min-h-[200px] lg:overflow-auto 2xl:min-h-[450px]`}
+              >
+                <table className="overflow-x min-h-[100px] w-full min-w-max table-auto scroll-auto rounded-t-lg text-left">
+                  <TableHeaderComponent />
+                  <TableBodyComponent />
+                </table>
+              </div>
+            ) : (
+              <GridDisplayComponent />
+            )}
 
             <CardFooter className="border-neutrals-200 dark:border-neutrals-700 flex items-center justify-end p-0 pt-4 border-t">
               <PaginationComponent
