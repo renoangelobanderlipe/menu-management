@@ -100,9 +100,9 @@ const LoginPage = () => {
                 variant="ghost"
                 color="blue"
                 className="flex items-center"
-                icon={<Icon icon="ph:info-duotone" className="h-6 w-6 text-info-500 dark:text-info-100" />}
+                icon={<Icon icon="ph:info-duotone" className="h-6 w-6 text-info-500" />}
               >
-                <Typography variant="paragraph" className="w-full" color="gray">
+                <Typography variant="paragraph" className="w-full dark:text-light-body-text" color="gray">
                   Use <strong className="text-info-500">{import.meta.env.VITE_DEMO_EMAIL} </strong> with password{' '}
                   <strong className="text-info-500">{import.meta.env.VITE_DEMO_PASSWORD}</strong>
                 </Typography>

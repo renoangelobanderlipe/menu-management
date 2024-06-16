@@ -1938,7 +1938,7 @@ export const theme = {
       variants: {
         ghost: {
           blue: {
-            backgroud: 'bg-info-100 dark:bg-info-500',
+            backgroud: 'bg-info-100 dark:bg-info-200',
             color: 'text-info-500 dark:text-info-100',
           },
           red: {
