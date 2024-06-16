@@ -12,19 +12,19 @@ import {
   Typography,
 } from '@material-tailwind/react';
 import { debounce } from 'lodash';
-import { useTableActionsStore } from '@services/state/store';
+import { useTableFiltersStore } from '@services/state/store';
 import { KbdComponent } from '../ui';
 import { useMenuStore } from '../../services/state/store';
 import { exportToCsv } from '../../utils/utils';
 
 const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
-  const setSearchQuery = useTableActionsStore((state) => state.setSearchQuery);
-  const setSortOrder = useTableActionsStore((state) => state.setSortOrder);
+  const setSearchQuery = useTableFiltersStore((state) => state.setSearchQuery);
+  const setSortOrder = useTableFiltersStore((state) => state.setSortOrder);
 
-  const setPriceRange = useTableActionsStore((state) => state.setPriceRange);
-  const priceRange = useTableActionsStore((state) => state.priceRange);
-  const setCostRange = useTableActionsStore((state) => state.setCostRange);
-  const costRange = useTableActionsStore((state) => state.costRange);
+  const setPriceRange = useTableFiltersStore((state) => state.setPriceRange);
+  const priceRange = useTableFiltersStore((state) => state.priceRange);
+  const setCostRange = useTableFiltersStore((state) => state.setCostRange);
+  const costRange = useTableFiltersStore((state) => state.costRange);
   const menuList = useMenuStore((state) => state.menuList);
 
   const debouncedSetSearchQuery = useCallback(debounce(setSearchQuery, 300), []);
@@ -41,9 +41,9 @@ const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
   };
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-6 md:flex-row">
+      <div className="md:flex-row flex flex-col items-center w-full gap-6">
         <KbdComponent onChange={(e) => debouncedSetSearchQuery(e.target.value)} />
-        <div className="grid w-full grid-cols-2 items-center gap-2 md:flex md:flex-row">
+        <div className="md:flex md:flex-row grid items-center w-full grid-cols-2 gap-2">
           <Menu
             dismiss={{
               itemPress: false,
@@ -51,8 +51,8 @@ const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
             placement="bottom-start"
           >
             <MenuHandler>
-              <Button variant="text" size="md" className="col-span-1 w-full md:w-fit">
-                <Icon icon="ph:funnel-duotone" className="h-5 w-5 text-primary-500" />
+              <Button variant="text" size="md" className="md:w-fit w-full col-span-1">
+                <Icon icon="ph:funnel-duotone" className="text-primary-500 w-5 h-5" />
                 Filter
               </Button>
             </MenuHandler>
@@ -62,7 +62,7 @@ const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
                 <Option value="desc">Descending</Option>
               </Select>
 
-              <div className="mt-3 flex flex-col gap-2">
+              <div className="flex flex-col gap-2 mt-3">
                 <Typography variant="h5" color="black">
                   Price Range
                 </Typography>
@@ -87,7 +87,7 @@ const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
                   />
                 </div>
               </div>
-              <div className="mt-3 flex flex-col gap-2">
+              <div className="flex flex-col gap-2 mt-3">
                 <Typography variant="h5" color="black">
                   Cost Range
                 </Typography>
@@ -114,22 +114,22 @@ const TableActionComponent = ({ setActiveDisplay, activeDisplay }) => {
             </MenuList>
           </Menu>
 
-          <Button variant="text" size="md" className="col-span-1 w-full md:w-fit" onClick={handleExport}>
-            <Icon icon="ph:export-duotone" className="h-5 w-5 text-primary-500" />
+          <Button variant="text" size="md" className="md:w-fit w-full col-span-1" onClick={handleExport}>
+            <Icon icon="ph:export-duotone" className="text-primary-500 w-5 h-5" />
             Export
           </Button>
-          <Button variant="text" size="md" color="red" className="col-span-3 w-full md:col-span-1 md:w-fit">
-            <Icon icon="ph:trash-duotone" className="h-5 w-5" />
+          <Button variant="text" size="md" color="red" className="md:col-span-1 md:w-fit w-full col-span-3">
+            <Icon icon="ph:trash-duotone" className="w-5 h-5" />
             Delete (20)
           </Button>
         </div>
       </div>
-      <div className="hidden md:flex">
+      <div className="md:flex hidden">
         <IconButton color={activeDisplay ? 'gray' : 'green'} onClick={() => setActiveDisplay(!activeDisplay)}>
-          <Icon icon="ph:rows-duotone" className="h-5 w-5" />
+          <Icon icon="ph:rows-duotone" className="w-5 h-5" />
         </IconButton>
         <IconButton color={activeDisplay ? 'green' : 'gray'} onClick={() => setActiveDisplay(!activeDisplay)}>
-          <Icon icon="ph:grid-four-duotone" className="h-5 w-5" />
+          <Icon icon="ph:grid-four-duotone" className="w-5 h-5" />
         </IconButton>
       </div>
     </>
