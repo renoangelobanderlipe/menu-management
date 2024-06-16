@@ -3,17 +3,23 @@ import { Avatar, Button, Dialog, IconButton, Input, Typography } from '@material
 import { menuItemSchema } from '../../utils/validations';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { unicodeCurrency } from '../../utils/formatter';
 import { useEffect, useState } from 'react';
 import { getDatabase, onValue, ref, update } from 'firebase/database';
 import { app } from '@services/provider/firebaseConfig';
 import { toast } from 'sonner';
-import { deleteObject, getDownloadURL, ref as refStorage, uploadBytes } from 'firebase/storage';
+import {
+  deleteObject,
+  getDownloadURL,
+  ref as refStorage,
+  uploadBytes,
+} from 'firebase/storage';
 import { storage } from '@services/provider/firebaseConfig';
 import { v4 } from 'uuid';
 
 const EditMenuDialog = ({ itemId, handleOpen, open }) => {
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
   const {
+    register,
     handleSubmit,
     setError,
     reset,
@@ -44,14 +50,11 @@ const EditMenuDialog = ({ itemId, handleOpen, open }) => {
           options: data.options || '',
         });
 
-        console.log('data', data.imageUrl, data);
-
         setImageData({
           url: data.imageUrl || null,
           file: null,
         });
       }
-      setIsDataLoaded(true);
     });
 
     return unsubscribe;
@@ -125,7 +128,7 @@ const EditMenuDialog = ({ itemId, handleOpen, open }) => {
     <>
       <Dialog size="sm" open={open} handler={handleOpen} className="overflow-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex w-full flex-col gap-6">
+          <div className="flex flex-col w-full gap-6">
             <div className="flex flex-col gap-2">
               <Typography variant="h3" className="font-bold" color="black">
                 Edit Menu Item
@@ -137,16 +140,16 @@ const EditMenuDialog = ({ itemId, handleOpen, open }) => {
 
             <div className="grid h-[300px] w-full grid-cols-2 gap-6 overflow-scroll md:h-[500px] lg:h-full lg:overflow-hidden">
               {!imageData.url ? (
-                <div className="col-span-2 flex flex-col gap-2">
+                <div className="flex flex-col col-span-2 gap-2">
                   <Typography variant="h5" color="black">
                     Item Image
                   </Typography>
                   <label
                     htmlFor="item-image"
-                    className="flex h-full items-center gap-4 rounded-lg border border-dashed border-neutrals-500 px-4 py-4 dark:border-neutrals-600 2xl:flex-col 2xl:py-12"
+                    className="border-neutrals-500 dark:border-neutrals-600 2xl:flex-col 2xl:py-12 flex items-center h-full gap-4 px-4 py-4 border border-dashed rounded-lg"
                   >
-                    <Icon icon="ph:upload-duotone" className="h-8 w-8 text-primary-500" />
-                    <div className="flex flex-col gap-2 2xl:items-center 2xl:justify-center 2xl:text-center">
+                    <Icon icon="ph:upload-duotone" className="text-primary-500 w-8 h-8" />
+                    <div className="2xl:items-center 2xl:justify-center 2xl:text-center flex flex-col gap-2">
                       <Typography variant="h5" color="black">
                         Drag and Drop or Choose a Local File
                       </Typography>
@@ -163,7 +166,7 @@ const EditMenuDialog = ({ itemId, handleOpen, open }) => {
                   )}
                 </div>
               ) : (
-                <div className="col-span-2 flex flex-col gap-2">
+                <div className="flex flex-col col-span-2 gap-2">
                   <Typography variant="h5" color="black">
                     Item Image
                   </Typography>
@@ -184,60 +187,90 @@ const EditMenuDialog = ({ itemId, handleOpen, open }) => {
                       </Typography>
                     </div>
                     <IconButton variant="text" color="red" onClick={() => handleRemoveImage(imageData.url)}>
-                      <Icon icon="ph:trash-duotone" className="h-5 w-5" />
+                      <Icon icon="ph:trash-duotone" className="w-5 h-5" />
                     </IconButton>
                   </label>
                   {/* ... your hidden file input ... */}
                 </div>
               )}
-              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <div className="md:col-span-1 flex flex-col col-span-2 gap-2">
                 <Typography variant="h5" color="black">
                   Item Name
                 </Typography>
-                <Input label="Email" size="lg" />
+                <Input {...register('itemName')} size="lg" />
+                {errors.itemName && (
+                  <Typography variant="small" color="red">
+                    {errors.itemName.message}
+                  </Typography>
+                )}
               </div>
-              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <div className="md:col-span-1 flex flex-col col-span-2 gap-2">
                 <Typography variant="h5" color="black">
                   Select A Category
                 </Typography>
-                <Input label="Email" size="lg" placeholder="Add up to 3 categories, separated by commas" />
+                <Input {...register('category')} size="lg" placeholder="Add up to 3 categories, separated by commas" />
+                {errors.category && (
+                  <Typography variant="small" color="red">
+                    {errors.category.message}
+                  </Typography>
+                )}
               </div>
 
-              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <div className="md:col-span-1 flex flex-col col-span-2 gap-2">
                 <Typography variant="h5" color="black">
                   Price
                 </Typography>
-                <Input label="Email" size="lg" />
+                <Input {...register('price')} placeholder={unicodeCurrency()} size="lg" />
+                {errors.price && (
+                  <Typography variant="small" color="red">
+                    {errors.price.message}
+                  </Typography>
+                )}
               </div>
 
-              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <div className="md:col-span-1 flex flex-col col-span-2 gap-2">
                 <Typography variant="h5" color="black">
                   Cost
                 </Typography>
-                <Input label="Email" size="lg" />
+                <Input {...register('cost')} placeholder={unicodeCurrency()} size="lg" />
+                {errors.cost && (
+                  <Typography variant="small" color="red">
+                    {errors.cost.message}
+                  </Typography>
+                )}
               </div>
 
-              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <div className="md:col-span-1 flex flex-col col-span-2 gap-2">
                 <Typography variant="h5" color="black">
                   Amount in Stock
                 </Typography>
-                <Input label="Email" size="lg" />
+                <Input {...register('amountInStock')} size="lg" />
+                {errors.amountInStock && (
+                  <Typography variant="small" color="red">
+                    {errors.amountInStock.message}
+                  </Typography>
+                )}
               </div>
 
-              <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <div className="md:col-span-1 flex flex-col col-span-2 gap-2">
                 <Typography variant="h5" color="black">
                   Options Available
                 </Typography>
-                <Input label="Email" size="lg" placeholder="Add up to 4 options, separated by commas" />
+                <Input {...register('options')} size="lg" placeholder="Add up to 4 options, separated by commas" />
+                {errors.options && (
+                  <Typography variant="small" color="red">
+                    {errors.options.message}
+                  </Typography>
+                )}
               </div>
             </div>
 
             {/*  */}
-            <div className="flex w-full flex-row justify-end gap-3 p-0">
+            <div className="flex flex-row justify-end w-full gap-3 p-0">
               <Button onClick={handleOpen} variant="text" color="gray">
                 Cancel
               </Button>
-              <Button className="w-full md:w-fit" type="submit">
+              <Button className="md:w-fit w-full" type="submit">
                 {isSubmitting ? <Icon icon="svg-spinners:6-dots-scale" style={{ color: '#fff' }} /> : 'Save Menu Item'}
               </Button>
             </div>
