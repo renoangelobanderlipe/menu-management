@@ -26,6 +26,7 @@ const NavbarComponent = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
+      toast.success('Successfully Log out!');
       navigate('/login');
     } catch (error) {
       toast.error("Something Wen't Wrong!");
