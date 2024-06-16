@@ -16,13 +16,11 @@ export const useMenuStore = create((set) => ({
 export const useTableFiltersStore = create((set) => ({
   searchQuery: '',
   sortOrder: 'asc',
-  costRange: { start: null, end: null },
-  priceRange: { start: null, end: null },
   pageSize: 5,
+  currentPage: 1,
 
-  setSearchQuery: (searchQuery) => set({ searchQuery: searchQuery }),
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
   setSortOrder: (sortOrder) => set({ sortOrder }),
-  setCostRange: (costRange) => set({ costRange: costRange }),
-  setPriceRange: (priceRange) => set({ priceRange: priceRange }),
-  setPageSize: (pageSize) => set({ pageSize: pageSize }),
+  setPageSize: (pageSize) => set({ pageSize }),
+  setCurrentPage: (currentPage) => set({ currentPage }),
 }));
