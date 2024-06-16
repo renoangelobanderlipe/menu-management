@@ -6,19 +6,20 @@ import { useMenuStore } from '@services/state/store';
 
 import { MenuContainer, NavbarComponent, MenuHeader } from '@components/index';
 import Fuse from 'fuse.js';
-import { useTableActionsStore } from '../../../services/state/store';
+import { useTableFiltersStore } from '@services/state/store';
 import { Card, CardFooter } from '@material-tailwind/react';
-import TableActionComponent from '../../../components/MenuTable/TableActionComponent';
-import TableHeaderComponent from '../../../components/MenuTable/TableHeaderComponent';
-import TableBodyComponent from '../../../components/MenuTable/TableBodyComponent';
-import { GridDisplayComponent, PaginationComponent } from '../../../components/ui';
+import TableActionComponent from '@components/MenuTable/TableActionComponent';
+import TableHeaderComponent from '@components/MenuTable/TableHeaderComponent';
+import TableBodyComponent from '@components/MenuTable/TableBodyComponent';
+import { GridDisplayComponent, PaginationComponent } from '@components/ui';
+import { searchFields } from '@utils/constants';
 
 const MenuManagementPage = () => {
   const setMenuList = useMenuStore((state) => state.setMenuList);
-  const sortOrder = useTableActionsStore((state) => state.sortOrder);
-  const pageSize = 5;
+  const sortOrder = useTableFiltersStore((state) => state.sortOrder);
+  const pageSize = useTableFiltersStore((state) => state.pageSize);
   const [allMenuItems, setAllMenuItems] = useState([]);
-  const searchQuery = useTableActionsStore((state) => state.searchQuery);
+  const searchQuery = useTableFiltersStore((state) => state.searchQuery);
   const [activeDisplay, setActiveDisplay] = useState(false);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ const MenuManagementPage = () => {
         // Apply fuzzy search (if searchQuery is present)
         if (searchQuery) {
           const fuse = new Fuse(menuItems, {
-            keys: ['itemName', 'itemDescription', 'category'],
+            keys: searchFields,
             threshold: 0.4,
           });
           filteredItems = fuse.search(searchQuery).map((result) => result.item);
