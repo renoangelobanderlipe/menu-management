@@ -12,6 +12,7 @@ import { v4 } from 'uuid';
 import { storage } from '@services/provider/firebaseConfig';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 import { getDatabase, push, ref as refRtd, set } from 'firebase/database';
+import { unicodeCurrency } from '../../utils/formatter';
 
 const AddMenuDialog = ({ handleOpen, open }) => {
   const {
@@ -59,6 +60,7 @@ const AddMenuDialog = ({ handleOpen, open }) => {
 
       toast.success('Menu item added successfully!');
       handleOpen(null);
+      setSelectedImage(null);
       reset();
     } catch (error) {
       console.error('Error adding menu item:', error);
@@ -70,7 +72,7 @@ const AddMenuDialog = ({ handleOpen, open }) => {
     <>
       <Dialog size="sm" open={open} handler={handleOpen} className="overflow-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex w-full flex-col gap-6">
+          <div className="flex flex-col w-full gap-6">
             <div className="flex flex-col gap-2">
               <Typography variant="h3" className="font-bold" color="black">
                 Add Menu Item
@@ -82,16 +84,16 @@ const AddMenuDialog = ({ handleOpen, open }) => {
 
             <div className="grid h-[300px] w-full grid-cols-2 gap-6 overflow-scroll md:h-[500px] lg:h-full lg:overflow-hidden">
               {!selectedImage ? (
-                <div className="col-span-2 flex flex-col gap-2">
+                <div className="flex flex-col col-span-2 gap-2">
                   <Typography variant="h5" color="black">
                     Item Image
                   </Typography>
                   <label
                     htmlFor="item-image"
-                    className="flex h-full items-center gap-4 rounded-lg border border-dashed border-neutrals-500 px-4 py-4 dark:border-neutrals-600 2xl:flex-col 2xl:py-12"
+                    className="border-neutrals-500 dark:border-neutrals-600 2xl:flex-col 2xl:py-12 flex items-center h-full gap-4 px-4 py-4 border border-dashed rounded-lg"
                   >
-                    <Icon icon="ph:upload-duotone" className="h-8 w-8 text-primary-500" />
-                    <div className="flex flex-col gap-2 2xl:items-center 2xl:justify-center 2xl:text-center">
+                    <Icon icon="ph:upload-duotone" className="text-primary-500 w-8 h-8" />
+                    <div className="2xl:items-center 2xl:justify-center 2xl:text-center flex flex-col gap-2">
                       <Typography variant="h5" color="black">
                         Drag and Drop or Choose a Local File
                       </Typography>
@@ -108,7 +110,7 @@ const AddMenuDialog = ({ handleOpen, open }) => {
                   )}
                 </div>
               ) : (
-                <div className="col-span-2 flex flex-col gap-2">
+                <div className="flex flex-col col-span-2 gap-2">
                   <Typography variant="h5" color="black">
                     Item Image
                   </Typography>
@@ -126,7 +128,7 @@ const AddMenuDialog = ({ handleOpen, open }) => {
                       </Typography>
                     </div>
                     <IconButton variant="text" color="red" onClick={handleRemoveImage}>
-                      <Icon icon="ph:trash-duotone" className="h-5 w-5" />
+                      <Icon icon="ph:trash-duotone" className="w-5 h-5" />
                     </IconButton>
                   </label>
                   <input id="item-image" type="file" size="lg" className="hidden" />
@@ -157,9 +159,9 @@ const AddMenuDialog = ({ handleOpen, open }) => {
 
               <div className="flex flex-col gap-2">
                 <Typography variant="h5" color="black">
-                  Price
+                  {unicodeCurrency()} Price
                 </Typography>
-                <Input {...register('price')} size="lg" />
+                <Input {...register('price')} placeholder={unicodeCurrency()} size="lg" />
                 {errors.price && (
                   <Typography variant="small" color="red">
                     {errors.price.message}
@@ -169,9 +171,9 @@ const AddMenuDialog = ({ handleOpen, open }) => {
 
               <div className="flex flex-col gap-2">
                 <Typography variant="h5" color="black">
-                  Cost
+                  {unicodeCurrency()} Cost
                 </Typography>
-                <Input {...register('cost')} size="lg" />
+                <Input {...register('cost')} placeholder={unicodeCurrency()} size="lg" />
                 {errors.cost && (
                   <Typography variant="small" color="red">
                     {errors.cost.message}
@@ -204,11 +206,11 @@ const AddMenuDialog = ({ handleOpen, open }) => {
               </div>
             </div>
 
-            <div className="flex w-full flex-row justify-end gap-3 p-0">
+            <div className="flex flex-row justify-end w-full gap-3 p-0">
               <Button onClick={handleOpen} className="" variant="text" color="gray">
                 Cancel
               </Button>
-              <Button className="w-full lg:w-fit" disabled={isSubmitting} type="submit">
+              <Button className="lg:w-fit w-full" disabled={isSubmitting} type="submit">
                 {isSubmitting ? <Icon icon="svg-spinners:6-dots-scale" style={{ color: '#fff' }} /> : 'Add Menu Item'}
               </Button>
             </div>
