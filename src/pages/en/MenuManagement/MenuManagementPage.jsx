@@ -22,10 +22,6 @@ const MenuManagementPage = () => {
   const sortOrder = useTableFiltersStore((state) => state.sortOrder);
   const pageSize = useTableFiltersStore((state) => state.pageSize);
   const searchQuery = useTableFiltersStore((state) => state.searchQuery);
-  const costRange = useTableFiltersStore((state) => state.costRange);
-  const priceRange = useTableFiltersStore((state) => state.priceRange);
-
-  console.log('cost range', costRange);
 
   useEffect(() => {
     const db = getDatabase(app);
@@ -46,24 +42,6 @@ const MenuManagementPage = () => {
   useEffect(() => {
     let itemsToFilter = [...allMenuItems];
 
-    // Apply sort order (if not searching)
-    if (!searchQuery) {
-      itemsToFilter = sortOrder === 'asc' ? itemsToFilter.slice().reverse() : itemsToFilter;
-    }
-
-    // Apply filters (cost and price)
-    if (costRange.start !== null && costRange.end !== null) {
-      itemsToFilter = itemsToFilter.filter(
-        (item) => parseFloat(item.cost) >= costRange.start && parseFloat(item.cost) <= costRange.end,
-      );
-    }
-
-    if (priceRange.start !== null && priceRange.end !== null) {
-      itemsToFilter = itemsToFilter.filter(
-        (item) => parseFloat(item.price) >= priceRange.start && parseFloat(item.price) <= priceRange.end,
-      );
-    }
-
     // Apply fuzzy search (if searchQuery is present)
     if (searchQuery) {
       const fuse = new Fuse(itemsToFilter, {
@@ -80,7 +58,7 @@ const MenuManagementPage = () => {
 
     setFilteredItems(filteredItemsForPage);
     setMenuList(filteredItemsForPage);
-  }, [setMenuList, allMenuItems, sortOrder, searchQuery, pageSize, costRange, priceRange, currentPage]);
+  }, [setMenuList, allMenuItems, sortOrder, searchQuery, pageSize, currentPage]);
 
   const goToNextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);

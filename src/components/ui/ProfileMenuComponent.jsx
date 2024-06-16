@@ -2,6 +2,17 @@ import { Menu, MenuHandler, MenuList, MenuItem, Avatar, Typography } from '@mate
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useEffect, useState } from 'react';
 
+const profileMenuItems = [
+  {
+    label: 'Settings',
+    icon: 'ph:gear-six-duotone',
+  },
+  {
+    label: 'Sign Out',
+    icon: 'ph:sign-out-duotone',
+  },
+];
+
 const ProfileMenuComponent = ({ items, onLogout }) => {
   const [randomValue, setRandomValue] = useState(1);
 
@@ -25,8 +36,8 @@ const ProfileMenuComponent = ({ items, onLogout }) => {
         />
       </MenuHandler>
       <MenuList>
-        {items.map((item, index) => {
-          const isLastItem = index === items.length - 1;
+        {profileMenuItems.map((item, index) => {
+          const isLastItem = index === profileMenuItems.length - 1;
           return (
             <MenuItem
               key={index}

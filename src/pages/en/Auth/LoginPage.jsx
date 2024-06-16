@@ -1,9 +1,9 @@
+import { useState } from 'react';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Alert, Button, IconButton, Input, Typography } from '@material-tailwind/react';
-import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { loginSchema } from '@utils/validations';
 import { toast } from 'sonner';
@@ -11,6 +11,7 @@ import { auth } from '@services/provider/firebaseConfig';
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -21,12 +22,9 @@ const LoginPage = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const navigate = useNavigate();
-
   const onSubmit = async (params) => {
     try {
       await signInWithEmailAndPassword(auth, params.email, params.password);
-
       toast.success('Success');
       navigate('/');
     } catch (error) {
@@ -47,14 +45,14 @@ const LoginPage = () => {
             decoding="async"
             src={'assets/images/light-mode-sign-in.png'}
             className="w-[65%] dark:hidden"
-            alt="image"
+            alt="light mode sign in"
           />
           <img
             loading="lazy"
             decoding="async"
             src={'assets/images/dark-mode-sign-in.png'}
             className="hidden w-[65%] dark:block"
-            alt="image"
+            alt="dark mode sign in"
           />
         </div>
       </div>
@@ -84,7 +82,7 @@ const LoginPage = () => {
                 <Typography variant="paragraph" color="gray">
                   New User?
                 </Typography>
-                <NavLink className="text-[14px]">
+                <NavLink to="/register" className="text-[14px]">
                   <Typography variant="paragraph" color="green">
                     Create an account
                   </Typography>
@@ -143,7 +141,7 @@ const LoginPage = () => {
 
             <div className="flex justify-between">
               <label></label>
-              <NavLink className="leading-5">
+              <NavLink to="/forgot-password" className="leading-5">
                 <Typography variant="paragraph" color="gray" className="hover:text-primary-500">
                   Forgot Password?
                 </Typography>

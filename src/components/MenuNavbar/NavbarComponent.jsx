@@ -8,17 +8,6 @@ import { auth } from '@services/provider/firebaseConfig';
 
 import { ProfileMenuComponent } from '@components/ui';
 
-const profileMenuItems = [
-  {
-    label: 'Settings',
-    icon: 'ph:gear-six-duotone',
-  },
-  {
-    label: 'Sign Out',
-    icon: 'ph:sign-out-duotone',
-  },
-];
-
 const NavbarComponent = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
@@ -75,7 +64,7 @@ const NavbarComponent = () => {
             </IconButton>
 
             {/* Profile Menu */}
-            <ProfileMenuComponent items={profileMenuItems} onLogout={handleLogout} />
+            <ProfileMenuComponent onLogout={handleLogout} />
           </div>
         </div>
       </div>

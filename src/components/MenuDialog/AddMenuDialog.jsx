@@ -1,18 +1,12 @@
-import { useState } from 'react';
-
-import { Icon } from '@iconify/react/dist/iconify.js';
-import { Avatar, Button, Dialog, IconButton, Input, Typography } from '@material-tailwind/react';
-
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Dialog, Typography } from '@material-tailwind/react';
+import { Icon } from '@iconify/react';
 import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { menuItemSchema } from '@utils/validations';
-import { toast } from 'sonner';
-import { v4 } from 'uuid';
-
-import { storage } from '@services/provider/firebaseConfig';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { getDatabase, push, ref as refRtd, set } from 'firebase/database';
 import { unicodeCurrency } from '../../utils/formatter';
+import { useAddMenuItem } from '../../hooks/useAddMenuItem';
+import FormInput from './../Input/FormInput';
+import AddImageUploader from '../AddImageUploader';
 
 const AddMenuDialog = ({ handleOpen, open }) => {
   const {
@@ -25,48 +19,9 @@ const AddMenuDialog = ({ handleOpen, open }) => {
     resolver: zodResolver(menuItemSchema),
   });
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const { selectedImage, handleImageChange, handleRemoveImage, addMenuItem } = useAddMenuItem();
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith('image/')) {
-      setSelectedImage(URL.createObjectURL(file));
-      setValue('image', file);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setSelectedImage(null);
-    setValue('image', null);
-  };
-
-  const onSubmit = async (data) => {
-    try {
-      const db = getDatabase();
-
-      let imageUrl = null;
-      if (data.image) {
-        const storageRef = ref(storage, `menu-items/${data.image.name + v4()}`);
-        const snapshot = await uploadBytes(storageRef, data.image);
-        imageUrl = await getDownloadURL(snapshot.ref);
-      }
-
-      const newMenuItemRef = push(refRtd(db, 'menus'));
-      await set(newMenuItemRef, {
-        id: newMenuItemRef.key,
-        ...data,
-        imageUrl: imageUrl,
-      });
-
-      toast.success('Menu item added successfully!');
-      handleOpen(null);
-      setSelectedImage(null);
-      reset();
-    } catch (error) {
-      console.error('Error adding menu item:', error);
-      toast.error('An error occurred while adding the menu item.');
-    }
-  };
+  const onSubmit = (data) => addMenuItem(data, handleOpen, reset);
 
   return (
     <Dialog size="sm" open={open} handler={handleOpen} className="overflow-auto">
@@ -82,127 +37,43 @@ const AddMenuDialog = ({ handleOpen, open }) => {
           </div>
 
           <div className="grid h-[300px] w-full grid-cols-2 gap-6 overflow-scroll md:h-[500px] lg:h-full lg:overflow-hidden">
-            {!selectedImage ? (
-              <div className="col-span-2 flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  Item Image
-                </Typography>
-                <label
-                  htmlFor="item-image"
-                  className="flex h-full items-center gap-4 rounded-lg border border-dashed border-neutrals-500 px-4 py-4 dark:border-neutrals-600 2xl:flex-col 2xl:py-12"
-                >
-                  <Icon icon="ph:upload-duotone" className="h-8 w-8 text-primary-500" />
-                  <div className="flex flex-col gap-2 2xl:items-center 2xl:justify-center 2xl:text-center">
-                    <Typography variant="h5" color="black">
-                      Drag and Drop or Choose a Local File
-                    </Typography>
-                    <Typography variant="small" color="gray">
-                      Supported formats: .png, .jpg, .svg
-                    </Typography>
-                  </div>
-                </label>
-                <input onChange={handleImageChange} id="item-image" type="file" size="lg" className="hidden" />
-                {errors.image && (
-                  <Typography variant="small" color="red">
-                    {errors.image.message}
-                  </Typography>
-                )}
-              </div>
-            ) : (
-              <div className="col-span-2 flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  Item Image
-                </Typography>
-                <label
-                  htmlFor="item-image"
-                  className="flex h-full w-fit flex-row items-center gap-4 rounded-lg border border-solid border-neutrals-500 px-4 py-3.5 dark:border-neutrals-600"
-                >
-                  <Avatar src={selectedImage} alt="avatar" variant="rounded" size="sm" />
-                  <div className="flex flex-col items-center justify-center gap-2">
-                    <Typography variant="h5" color="black">
-                      item-1.jpg
-                    </Typography>
-                    <Typography variant="small" color="gray">
-                      140 KB
-                    </Typography>
-                  </div>
-                  <IconButton variant="text" color="red" onClick={handleRemoveImage}>
-                    <Icon icon="ph:trash-duotone" className="h-5 w-5" />
-                  </IconButton>
-                </label>
-                <input id="item-image" type="file" size="lg" className="hidden" />
-              </div>
-            )}
-            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
-              <Typography variant="h5" color="black">
-                Item Name
-              </Typography>
-              <Input {...register('itemName')} size="lg" />
-              {errors.itemName && (
-                <Typography variant="small" color="red">
-                  {errors.itemName.message}
-                </Typography>
-              )}
-            </div>
-            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
-              <Typography variant="h5" color="black">
-                Select A Category
-              </Typography>
-              <Input {...register('category')} size="lg" placeholder="Add up to 3 categories, separated by commas" />
-              {errors.category && (
-                <Typography variant="small" color="red">
-                  {errors.category.message}
-                </Typography>
-              )}
-            </div>
-
-            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
-              <Typography variant="h5" color="black">
-                {unicodeCurrency()} Price
-              </Typography>
-              <Input {...register('price')} placeholder={unicodeCurrency()} size="lg" />
-              {errors.price && (
-                <Typography variant="small" color="red">
-                  {errors.price.message}
-                </Typography>
-              )}
-            </div>
-
-            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
-              <Typography variant="h5" color="black">
-                {unicodeCurrency()} Cost
-              </Typography>
-              <Input {...register('cost')} placeholder={unicodeCurrency()} size="lg" />
-              {errors.cost && (
-                <Typography variant="small" color="red">
-                  {errors.cost.message}
-                </Typography>
-              )}
-            </div>
-
-            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
-              <Typography variant="h5" color="black">
-                Amount in Stock
-              </Typography>
-              <Input {...register('amountInStock')} size="lg" />
-              {errors.amountInStock && (
-                <Typography variant="small" color="red">
-                  {errors.amountInStock.message}
-                </Typography>
-              )}
-            </div>
-
-            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
-              <Typography variant="h5" color="black">
-                Options Available
-              </Typography>
-              <Input {...register('options')} size="lg" placeholder="Add up to 4 options, separated by commas" />
-              {errors.options && (
-                <Typography variant="small" color="red">
-                  {errors.options.message}
-                </Typography>
-              )}
-            </div>
+            <AddImageUploader
+              selectedImage={selectedImage}
+              handleImageChange={handleImageChange}
+              handleRemoveImage={handleRemoveImage}
+              setValue={setValue}
+              errors={errors}
+            />
+            <FormInput label="Item Name" register={register} name="itemName" errors={errors} />
+            <FormInput
+              label="Select A Category"
+              register={register}
+              name="category"
+              errors={errors}
+              placeholder="Add up to 3 categories, separated by commas"
+            />
+            <FormInput
+              label={`${unicodeCurrency()} Price`}
+              register={register}
+              name="price"
+              errors={errors}
+              placeholder={unicodeCurrency()}
+            />
+            <FormInput
+              label={`${unicodeCurrency()} Cost`}
+              register={register}
+              name="cost"
+              errors={errors}
+              placeholder={unicodeCurrency()}
+            />
+            <FormInput label="Amount in Stock" register={register} name="amountInStock" errors={errors} />
+            <FormInput
+              label="Options Available"
+              register={register}
+              name="options"
+              errors={errors}
+              placeholder="Add up to 4 options, separated by commas"
+            />
           </div>
 
           <div className="flex w-full flex-row justify-end gap-3 p-0">
