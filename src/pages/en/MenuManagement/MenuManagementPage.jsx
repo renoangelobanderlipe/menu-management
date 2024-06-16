@@ -111,8 +111,10 @@ const MenuManagementPage = () => {
             </div>
 
             {/* Table Display */}
-            <div className={`${activeDisplay ? 'hidden' : 'block'} w-full overflow-scroll p-0 lg:overflow-auto`}>
-              <table className="overflow-x lg: min-h-[100px] w-full min-w-max table-auto scroll-auto rounded-t-lg text-left md:min-h-[300px] lg:min-h-[200px] 2xl:min-h-[450px]">
+            <div
+              className={`${activeDisplay ? 'hidden' : 'block'} min-h-[100px] w-full overflow-scroll p-0 lg:min-h-[200px] lg:overflow-auto 2xl:min-h-[450px]`}
+            >
+              <table className="overflow-x min-h-[100px] w-full min-w-max table-auto scroll-auto rounded-t-lg text-left">
                 <TableHeaderComponent />
                 <TableBodyComponent />
               </table>
