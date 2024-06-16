@@ -13,7 +13,7 @@ export const useMenuStore = create((set) => ({
   clearMenuId: () => set({ menuId: null }),
 }));
 
-export const useTableActionsStore = create((set) => ({
+export const useTableFiltersStore = create((set) => ({
   searchQuery: '',
   sortOrder: 'asc',
   costRange: { start: null, end: null },
