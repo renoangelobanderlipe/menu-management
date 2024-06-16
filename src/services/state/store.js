@@ -17,10 +17,8 @@ export const useTableFiltersStore = create((set) => ({
   searchQuery: '',
   sortOrder: 'asc',
   pageSize: 5,
-  currentPage: 1,
 
-  setSearchQuery: (searchQuery) => set({ searchQuery }),
+  setSearchQuery: (searchQuery) => set({ searchQuery: searchQuery }),
   setSortOrder: (sortOrder) => set({ sortOrder }),
-  setPageSize: (pageSize) => set({ pageSize }),
-  setCurrentPage: (currentPage) => set({ currentPage }),
+  setPageSize: (pageSize) => set({ pageSize: pageSize }),
 }));

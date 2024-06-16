@@ -42,6 +42,10 @@ const MenuManagementPage = () => {
   useEffect(() => {
     let itemsToFilter = [...allMenuItems];
 
+    if (!searchQuery) {
+      itemsToFilter = sortOrder === 'asc' ? allMenuItems.slice().reverse() : allMenuItems;
+    }
+
     // Apply fuzzy search (if searchQuery is present)
     if (searchQuery) {
       const fuse = new Fuse(itemsToFilter, {
