@@ -45,7 +45,7 @@ const LoginPage = () => {
   }, [user, navigate]);
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-light-main-bg dark:bg-dark-main-bg lg:flex-row">
+    <div className="bg-light-main-bg dark:bg-dark-main-bg lg:flex-row flex flex-col h-screen overflow-hidden">
       <div className="relative hidden h-screen dark:bg-dark-container lg:block xl:w-[70%]">
         <div className="flex h-screen w-full items-center justify-center py-[63px]">
           <img
@@ -69,7 +69,7 @@ const LoginPage = () => {
           onSubmit={handleSubmit(onSubmit)}
           className="flex h-full w-full max-w-[288px] flex-col justify-center gap-[20px]"
         >
-          <div className="flex flex-col items-center gap-12 lg:gap-14">
+          <div className="lg:gap-14 flex flex-col items-center gap-12">
             <div className="flex items-center gap-2">
               <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAbCAMAAAAqGX2oAAAALVBMVEVHcEwhqpgkrpwlrpwkrZskrZslrpwirJojrZokrZwkrJsjrZsjrJskrZslrpxdfTXbAAAADnRSTlMAD832knvmQTGvU2oeoJGwNoYAAACwSURBVCiRhZJXAsMgDEMNNsMM3/+4haQNEEb1q4fARgCPlA+GraboEiykjEb5ynKYbJJRekSclkmkmh9nu4aks9+IsPELcd2i7BYQqkDe+yIOwB8CRHj/wlvogY+ARFisqJcGcwYseDwCZdD3N40qcwLtM9Bcu/Ym03Ib6NqHhlWM7avluYZYNh1JY6mSC7WNbW5WsFQlsJTXre2b0Gpz+qnY0a8ZU+/fGfkPAOF3xwfbyhvZ7eAPbAAAAABJRU5ErkJggg=="
@@ -82,7 +82,7 @@ const LoginPage = () => {
                 UTAK PH
               </Typography>
             </div>
-            <div className="flex w-full flex-col gap-4">
+            <div className="flex flex-col w-full gap-4">
               <Typography variant="h3" color="black">
                 Sign In To the App
               </Typography>
@@ -90,7 +90,7 @@ const LoginPage = () => {
                 <Typography variant="paragraph" color="gray">
                   New User?
                 </Typography>
-                <NavLink to="/register" className="text-[14px]">
+                <NavLink to="#" className="text-[14px]">
                   <Typography variant="paragraph" color="green">
                     Create an account
                   </Typography>
@@ -99,8 +99,17 @@ const LoginPage = () => {
             </div>
           </div>
 
-          <div className="flex w-full flex-col gap-6">
+          <div className="flex flex-col w-full gap-6">
             <div className="flex flex-col gap-5">
+              <Alert variant="ghost" color="blue">
+                <div className="flex items-center gap-2">
+                  <Icon icon="ph:info-duotone" className="text-info-500 dark:text-info-100 w-10 h-10" />
+                  <Typography variant="h5" color="black">
+                    Use <strong>{import.meta.env.VITE_DEMO_EMAIL} </strong> with password{' '}
+                    <strong>{import.meta.env.VITE_DEMO_PASSWORD}</strong>
+                  </Typography>
+                </div>
+              </Alert>
               <div className="flex flex-col gap-2">
                 <Input
                   {...register('email')}
@@ -131,9 +140,9 @@ const LoginPage = () => {
                       onClick={() => setShowPassword((prev) => !prev)}
                     >
                       {showPassword ? (
-                        <Icon icon="ph:eye-duotone" className="h-5 w-5 text-primary-500 lg:h-6 lg:w-6" />
+                        <Icon icon="ph:eye-duotone" className="text-primary-500 lg:h-6 lg:w-6 w-5 h-5" />
                       ) : (
-                        <Icon icon="ph:eye-closed-duotone" className="h-5 w-5 text-primary-500 lg:h-6 lg:w-6" />
+                        <Icon icon="ph:eye-closed-duotone" className="text-primary-500 lg:h-6 lg:w-6 w-5 h-5" />
                       )}
                     </IconButton>
                   }
@@ -149,7 +158,7 @@ const LoginPage = () => {
 
             <div className="flex justify-between">
               <label></label>
-              <NavLink to="/forgot-password" className="leading-5">
+              <NavLink to="#" className="leading-5">
                 <Typography variant="paragraph" color="gray" className="hover:text-primary-500">
                   Forgot Password?
                 </Typography>

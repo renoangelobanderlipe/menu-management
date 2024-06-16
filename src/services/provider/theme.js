@@ -1898,4 +1898,55 @@ export const theme = {
       },
     },
   },
+  alert: {
+    defaultProps: {
+      variant: 'filled',
+      color: 'blue',
+      icon: undefined,
+      open: true,
+      action: undefined,
+      onClose: undefined,
+      animate: {
+        unmount: {},
+        mount: {},
+      },
+      className: '',
+    },
+    valid: {
+      variants: ['ghost'],
+      colors: ['blue', 'red'],
+    },
+    styles: {
+      base: {
+        alert: {
+          position: 'relative',
+          display: 'block',
+          width: 'w-full',
+          fontFamily: 'font-sans',
+          fontSize: 'text-base',
+          fontWeight: 'font-regular',
+          px: 'px-4',
+          py: 'py-4',
+          borderRadius: 'rounded-lg',
+        },
+        action: {
+          position: '!absolute',
+          top: 'top-3',
+          right: 'right-3',
+        },
+      },
+      variants: {
+        ghost: {
+          blue: {
+            backgroud: "bg-info-100 dark:bg-info-500",
+            color: "text-info-500 dark:text-info-100",
+          },
+          red: {
+            backgroud: "bg-danger-100 dark:bg-danger-500",
+            color: "text-danger-500 dark:text-danger-100",
+          },
+        },
+      },
+    },
+  },
 };
