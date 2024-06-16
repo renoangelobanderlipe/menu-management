@@ -1,12 +1,12 @@
-import { Button, Typography } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { Button, Typography } from '@material-tailwind/react';
+import { useNavigate } from 'react-router-dom';
 
-const NotFound = () => {
+const NotFoundComponent = () => {
   const navigate = useNavigate();
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center h-screen gap-12 p-12">
+      <div className="flex h-screen flex-col items-center justify-center gap-12 p-12">
         <div>
           <img src="assets/images/404_image.svg" alt="" />
         </div>
@@ -15,10 +15,9 @@ const NotFound = () => {
             Page Not Found
           </Typography>
           <Typography variant="paragraph" color="gray" className="text-center">
-            The page you are looking for might have been removed, had its name
-            changed or is temporarily unavailable
+            The page you are looking for might have been removed, had its name changed or is temporarily unavailable
           </Typography>
-          <Button size="lg" onClick={() => navigate("/")}>
+          <Button size="lg" onClick={() => navigate('/')}>
             Go Back Home
           </Button>
         </div>
@@ -27,4 +26,4 @@ const NotFound = () => {
   );
 };
 
-export default NotFound;
+export default NotFoundComponent;

@@ -1,8 +1,9 @@
-import Header from './ui/Header'
-import { Button } from '@material-tailwind/react'
-import { Icon } from '@iconify/react/dist/iconify.js'
+import { Button } from '@material-tailwind/react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { useState } from 'react';
-import AddMenuDialog from './AddMenuDialog';
+
+import HeaderComponent from './ui/HeaderComponent';
+import AddMenuDialog from './MenuDialog/AddMenuDialog';
 
 const MenuHeader = () => {
   const [open, setOpen] = useState(false);
@@ -10,19 +11,16 @@ const MenuHeader = () => {
 
   return (
     <>
-      <Header >
+      <HeaderComponent>
         <Button className="bg-primary-500" onClick={handleOpen}>
-          <Icon
-            icon="ph:fork-knife-duotone"
-            className="w-5 h-5 text-white"
-          />
+          <Icon icon="ph:fork-knife-duotone" className="h-5 w-5 text-white" />
           Add Menu Item
         </Button>
-      </Header>
+      </HeaderComponent>
 
       <AddMenuDialog handleOpen={handleOpen} open={open} />
     </>
-  )
-}
+  );
+};
 
-export default MenuHeader
+export default MenuHeader;

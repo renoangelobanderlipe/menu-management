@@ -1,15 +1,18 @@
-import { StrictMode } from "react";
-import ReactDOM from "react-dom/client";
-import "./index.css";
-import App from "./App";
-import { ThemeProvider } from "@material-tailwind/react";
-import { Toaster } from "sonner";
+import ReactDOM from 'react-dom/client';
+import { StrictMode } from 'react';
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+import { ThemeProvider } from '@material-tailwind/react';
+import { Toaster } from 'sonner';
+
+import App from './App';
+import './index.css';
+import { theme } from '@services/provider/theme';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider>
+    <ThemeProvider value={theme}>
       <App />
-      <Toaster richColors expand  position="top-right" />
+      <Toaster richColors expand position="bottom-right" closeButton invert />
     </ThemeProvider>
-  </StrictMode>
+  </StrictMode>,
 );
