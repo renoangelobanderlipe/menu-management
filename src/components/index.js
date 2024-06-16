@@ -9,7 +9,6 @@ import NavbarComponent from './MenuNavbar/NavbarComponent';
 import TableActionComponent from './MenuTable/TableActionComponent';
 import TableBodyComponent from './MenuTable/TableBodyComponent';
 import TableHeaderComponent from './MenuTable/TableHeaderComponent';
-import TableMenuComponent from '@components/MenuTable/TableMenuComponent';
 
 import MenuHeader from '@components/MenuHeader';
 
@@ -22,6 +21,5 @@ export {
   TableActionComponent,
   TableBodyComponent,
   TableHeaderComponent,
-  TableMenuComponent,
   MenuHeader,
 };
