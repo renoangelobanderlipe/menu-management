@@ -10,7 +10,7 @@ import TableActionComponent from './MenuTable/TableActionComponent';
 import TableBodyComponent from './MenuTable/TableBodyComponent';
 import TableHeaderComponent from './MenuTable/TableHeaderComponent';
 
-import MenuHeader from '@components/MenuHeader';
+import PageHeader from '@components/PageHeader';
 
 export {
   MenuContainer,
@@ -21,5 +21,5 @@ export {
   TableActionComponent,
   TableBodyComponent,
   TableHeaderComponent,
-  MenuHeader,
+  PageHeader,
 };

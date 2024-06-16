@@ -15,7 +15,7 @@ const menuItemSchema = z.object({
         if (file instanceof File) {
           return file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'image/svg+xml';
         }
-        return true; // Allow null or undefined
+        return true;
       },
       { message: 'Invalid file type. Please upload JPG, PNG, or SVG.' },
     ),

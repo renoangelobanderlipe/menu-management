@@ -3,8 +3,8 @@ import { Icon } from '@iconify/react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { menuItemSchema } from '@utils/validations';
-import { unicodeCurrency } from '../../utils/formatter';
-import { useAddMenuItem } from '../../hooks/useAddMenuItem';
+import { unicodeCurrency } from '@utils/formatter';
+import { useAddMenuItem } from '@hooks/useAddMenuItem';
 import FormInput from './../Input/FormInput';
 import AddImageUploader from '../AddImageUploader';
 
@@ -45,35 +45,11 @@ const AddMenuDialog = ({ handleOpen, open }) => {
               errors={errors}
             />
             <FormInput label="Item Name" register={register} name="itemName" errors={errors} />
-            <FormInput
-              label="Select A Category"
-              register={register}
-              name="category"
-              errors={errors}
-              placeholder="Add up to 3 categories, separated by commas"
-            />
-            <FormInput
-              label={`${unicodeCurrency()} Price`}
-              register={register}
-              name="price"
-              errors={errors}
-              placeholder={unicodeCurrency()}
-            />
-            <FormInput
-              label={`${unicodeCurrency()} Cost`}
-              register={register}
-              name="cost"
-              errors={errors}
-              placeholder={unicodeCurrency()}
-            />
+            <FormInput label="Select A Category" register={register} name="category" errors={errors} />
+            <FormInput label={`Price (${unicodeCurrency()})`} register={register} name="price" errors={errors} />
+            <FormInput label={`Cost (${unicodeCurrency()})`} register={register} name="cost" errors={errors} />
             <FormInput label="Amount in Stock" register={register} name="amountInStock" errors={errors} />
-            <FormInput
-              label="Options Available"
-              register={register}
-              name="options"
-              errors={errors}
-              placeholder="Add up to 4 options, separated by commas"
-            />
+            <FormInput label="Options Available" register={register} name="options" errors={errors} />
           </div>
 
           <div className="flex w-full flex-row justify-end gap-3 p-0">

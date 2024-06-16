@@ -1,7 +1,7 @@
 import { Button, Dialog, Typography } from '@material-tailwind/react';
 import { useMenuStore } from '@services/state/store';
 import { getDatabase, ref, remove } from 'firebase/database';
-import { app } from '../../services/provider/firebaseConfig';
+import { app } from '@services/provider/firebaseConfig';
 import { toast } from 'sonner';
 
 const DeleteMenuDialog = ({ id, handleOpen, open }) => {
@@ -17,6 +17,7 @@ const DeleteMenuDialog = ({ id, handleOpen, open }) => {
       const dbRef = ref(db, `menus/${id}`);
       await remove(dbRef);
 
+      // Clear the Menu Id State
       useMenuStore.getState().clearMenuId();
 
       toast.success('Menu item deleted successfully.');

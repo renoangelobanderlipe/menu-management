@@ -1,54 +1,24 @@
 import { Typography, IconButton } from '@material-tailwind/react';
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signOut } from 'firebase/auth';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { toast } from 'sonner';
-import { auth } from '@services/provider/firebaseConfig';
-
 import { ProfileMenuComponent } from '@components/ui';
+import { useThemeStore } from '@services/state/store';
+import { utakPhLogo } from '@utils/constants';
 
 const NavbarComponent = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
+  const isDarkMode = useThemeStore((state) => state.isDarkMode);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
+  const logout = useThemeStore((state) => state.logout);
 
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      toast.success('Successfully Log out!');
-      navigate('/login');
-    } catch (error) {
-      toast.error("Something Wen't Wrong!");
-    }
+  const handleLogout = () => {
+    logout(navigate);
   };
-
-  const toggleTheme = () => {
-    const newTheme = isDarkMode ? 'light' : 'dark';
-    setIsDarkMode(!isDarkMode);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.remove(isDarkMode ? 'dark' : 'light');
-    document.documentElement.classList.add(newTheme);
-  };
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem('theme');
-    if (storedTheme) {
-      setIsDarkMode(storedTheme === 'dark');
-      document.documentElement.classList.add(storedTheme);
-    }
-  }, []);
-
   return (
     <div className="w-full">
       <div className="flex justify-between text-white lg:flex-wrap lg:items-center lg:gap-y-4">
         <div className="flex items-center">
-          <img
-            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAbCAMAAAAqGX2oAAAALVBMVEVHcEwhqpgkrpwlrpwkrZskrZslrpwirJojrZokrZwkrJsjrZsjrJskrZslrpxdfTXbAAAADnRSTlMAD832knvmQTGvU2oeoJGwNoYAAACwSURBVCiRhZJXAsMgDEMNNsMM3/+4haQNEEb1q4fARgCPlA+GraboEiykjEb5ynKYbJJRekSclkmkmh9nu4aks9+IsPELcd2i7BYQqkDe+yIOwB8CRHj/wlvogY+ARFisqJcGcwYseDwCZdD3N40qcwLtM9Bcu/Ym03Ib6NqHhlWM7avluYZYNh1JY6mSC7WNbW5WsFQlsJTXre2b0Gpz+qnY0a8ZU+/fGfkPAOF3xwfbyhvZ7eAPbAAAAABJRU5ErkJggg=="
-            alt="logo"
-            loading="lazy"
-            decoding="async"
-            className="h-10"
-          />
+          <img src={utakPhLogo} alt="logo" loading="lazy" decoding="async" className="h-10" />
           <Typography href="#" variant="h4" className="ml-2 mr-4 cursor-pointer py-1.5 text-primary-500">
             UTAK PH
           </Typography>

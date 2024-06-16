@@ -11,8 +11,8 @@ const TableActionComponent = ({ setIsListView, isListView }) => {
 
   return (
     <>
-      <div className="flex w-full flex-col items-center gap-6 md:flex-row">
-        <div className="flex flex-col gap-6 lg:flex-row">
+      <div className="flex w-full flex-col items-start gap-6 md:flex-row">
+        <div className="flex w-full flex-col gap-6 md:w-fit lg:flex-row">
           <KbdComponent onChange={(e) => debouncedSetSearchQuery(e.target.value)} />
           <Select
             size="lg"
@@ -28,17 +28,11 @@ const TableActionComponent = ({ setIsListView, isListView }) => {
             <Option value="desc">Descending</Option>
           </Select>
         </div>
-        <div className="grid w-full grid-cols-2 items-center gap-2 md:flex md:flex-row">
-          <Button
-            variant="text"
-            size="md"
-            className="col-span-1 w-full md:w-fit"
-            onClick={() => handleExport(menuList, 'menus.csv')}
-          >
-            <Icon icon="ph:export-duotone" className="h-5 w-5 text-primary-500" />
-            Export
-          </Button>
-        </div>
+
+        <Button variant="text" size="md" onClick={() => handleExport(menuList, 'menus.csv')}>
+          <Icon icon="ph:export-duotone" className="h-5 w-5 text-primary-500" />
+          Export
+        </Button>
       </div>
       <div className="hidden md:flex">
         <IconButton color={isListView ? 'green' : 'gray'} onClick={() => setIsListView(true)}>

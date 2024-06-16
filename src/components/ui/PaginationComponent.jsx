@@ -1,8 +1,14 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { IconButton, Typography } from '@material-tailwind/react';
-import React from 'react';
 
-const PaginationComponent = ({ currentPage, totalPages, onNext, onPrev }) => {
+const PaginationComponent = ({ currentPage, totalPages, setCurrentPage }) => {
+  const onNext = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
+  const onPrev = () => {
+    setCurrentPage((prevPage) => (prevPage > 1 ? prevPage - 1 : 1));
+  };
   return (
     <div className="flex items-center gap-8">
       <IconButton size="sm" variant="outlined" color="blue" onClick={onPrev} disabled={currentPage === 1}>

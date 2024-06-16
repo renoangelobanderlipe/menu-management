@@ -1,11 +1,8 @@
 import { useState } from 'react';
-
 import { Avatar, Chip, IconButton, Progress, Tooltip, Typography } from '@material-tailwind/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-
 import { useMenuStore } from '@services/state/store';
 import { currencyFormatter } from '@utils/formatter';
-
 import { EditMenuDialog, DeleteMenuDialog } from '@components/index';
 import { calculateProgressColor } from '@utils/utils';
 
@@ -50,9 +47,14 @@ const TableBodyComponent = () => {
                 </div>
               </td>
               <td className={classes}>
-                <div className="w-max flex gap-2">
-                  {row?.options &&
-                    row.options.split(',').map((option, index) => <Chip key={index} size="sm" value={option.trim()} />)}
+                <div className="grid max-w-48 grid-cols-4 gap-4">
+                  {row?.options && (
+                    <div className="col-span-4 flex flex-wrap gap-4">
+                      {row.options.split(',').map((option, index) => (
+                        <Chip className="w-fit shrink" key={index} size="sm" value={option.trim()} />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </td>
               <td className={classes}>
@@ -95,12 +97,12 @@ const TableBodyComponent = () => {
                 <div>
                   <Tooltip content="Delete" placement="left">
                     <IconButton variant="text" color="red" onClick={() => handleOpenDelete(row.id)}>
-                      <Icon icon="ph:trash-duotone" className="w-5 h-5" />
+                      <Icon icon="ph:trash-duotone" className="h-5 w-5" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip content="Edit" placement="right">
                     <IconButton variant="text" color="green" onClick={() => handleOpenEdit(row)}>
-                      <Icon icon="ph:note-pencil-duotone" className="w-5 h-5" />
+                      <Icon icon="ph:note-pencil-duotone" className="h-5 w-5" />
                     </IconButton>
                   </Tooltip>
                 </div>
