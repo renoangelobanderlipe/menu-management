@@ -35,7 +35,7 @@ const TableBodyComponent = () => {
             <tr key={index} className="hover:bg-primary-100/20 dark:hover:bg-primary-800/10">
               <td className={classes}>
                 <div className="flex items-center gap-3">
-                  <Avatar src={row?.imageUrl} alt="avatar" variant="rounded" size="sm" />
+                  <Avatar src={row?.imageUrl} alt={row.itemName[0]} variant="rounded" size="sm" />
                   <Typography variant="h5" color="black">
                     {row.itemName}
                   </Typography>
@@ -47,9 +47,9 @@ const TableBodyComponent = () => {
                 </div>
               </td>
               <td className={classes}>
-                <div className="grid max-w-48 grid-cols-4 gap-4">
+                <div className="max-w-48 grid grid-cols-4 gap-4">
                   {row?.options && (
-                    <div className="col-span-4 flex flex-wrap gap-4">
+                    <div className="flex flex-wrap col-span-4 gap-4">
                       {row.options.split(',').map((option, index) => (
                         <Chip className="w-fit shrink" key={index} size="sm" value={option.trim()} />
                       ))}
@@ -97,12 +97,12 @@ const TableBodyComponent = () => {
                 <div>
                   <Tooltip content="Delete" placement="left">
                     <IconButton variant="text" color="red" onClick={() => handleOpenDelete(row.id)}>
-                      <Icon icon="ph:trash-duotone" className="h-5 w-5" />
+                      <Icon icon="ph:trash-duotone" className="w-5 h-5" />
                     </IconButton>
                   </Tooltip>
                   <Tooltip content="Edit" placement="right">
                     <IconButton variant="text" color="green" onClick={() => handleOpenEdit(row)}>
-                      <Icon icon="ph:note-pencil-duotone" className="h-5 w-5" />
+                      <Icon icon="ph:note-pencil-duotone" className="w-5 h-5" />
                     </IconButton>
                   </Tooltip>
                 </div>
