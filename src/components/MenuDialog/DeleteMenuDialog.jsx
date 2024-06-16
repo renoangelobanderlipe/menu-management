@@ -6,7 +6,6 @@ import { toast } from 'sonner';
 
 const DeleteMenuDialog = ({ handleOpen, open }) => {
   const menuId = useMenuStore((state) => state.menuId);
-
   const handleDelete = async () => {
     try {
       if (!menuId) {
@@ -39,7 +38,7 @@ const DeleteMenuDialog = ({ handleOpen, open }) => {
           <Typography variant="paragraph" color="gray">
             Are you sure you want to delete this template and all associated data?
           </Typography>
-          <div className="flex flex-col gap-3 lg:flex-row-reverse">
+          <div className="flex flex-col gap-3 md:flex-row-reverse">
             <Button size="lg" className="w-full bg-danger-500 md:w-fit" onClick={() => handleDelete()}>
               Delete Menu Item
             </Button>

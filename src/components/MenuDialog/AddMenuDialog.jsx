@@ -69,155 +69,153 @@ const AddMenuDialog = ({ handleOpen, open }) => {
   };
 
   return (
-    <>
-      <Dialog size="sm" open={open} handler={handleOpen} className="overflow-auto">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="flex flex-col w-full gap-6">
-            <div className="flex flex-col gap-2">
-              <Typography variant="h3" className="font-bold" color="black">
-                Add Menu Item
-              </Typography>
-              <Typography variant="paragraph" color="gray">
-                Easily add items to your menu with just a few clicks.
-              </Typography>
-            </div>
+    <Dialog size="sm" open={open} handler={handleOpen} className="overflow-auto">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex w-full flex-col gap-6">
+          <div className="flex flex-col gap-2">
+            <Typography variant="h3" className="font-bold" color="black">
+              Add Menu Item
+            </Typography>
+            <Typography variant="paragraph" color="gray">
+              Easily add items to your menu with just a few clicks.
+            </Typography>
+          </div>
 
-            <div className="grid h-[300px] w-full grid-cols-2 gap-6 overflow-scroll md:h-[500px] lg:h-full lg:overflow-hidden">
-              {!selectedImage ? (
-                <div className="flex flex-col col-span-2 gap-2">
-                  <Typography variant="h5" color="black">
-                    Item Image
-                  </Typography>
-                  <label
-                    htmlFor="item-image"
-                    className="border-neutrals-500 dark:border-neutrals-600 2xl:flex-col 2xl:py-12 flex items-center h-full gap-4 px-4 py-4 border border-dashed rounded-lg"
-                  >
-                    <Icon icon="ph:upload-duotone" className="text-primary-500 w-8 h-8" />
-                    <div className="2xl:items-center 2xl:justify-center 2xl:text-center flex flex-col gap-2">
-                      <Typography variant="h5" color="black">
-                        Drag and Drop or Choose a Local File
-                      </Typography>
-                      <Typography variant="small" color="gray">
-                        Supported formats: .png, .jpg, .svg
-                      </Typography>
-                    </div>
-                  </label>
-                  <input onChange={handleImageChange} id="item-image" type="file" size="lg" className="hidden" />
-                  {errors.image && (
-                    <Typography variant="small" color="red">
-                      {errors.image.message}
+          <div className="grid h-[300px] w-full grid-cols-2 gap-6 overflow-scroll md:h-[500px] lg:h-full lg:overflow-hidden">
+            {!selectedImage ? (
+              <div className="col-span-2 flex flex-col gap-2">
+                <Typography variant="h5" color="black">
+                  Item Image
+                </Typography>
+                <label
+                  htmlFor="item-image"
+                  className="flex h-full items-center gap-4 rounded-lg border border-dashed border-neutrals-500 px-4 py-4 dark:border-neutrals-600 2xl:flex-col 2xl:py-12"
+                >
+                  <Icon icon="ph:upload-duotone" className="h-8 w-8 text-primary-500" />
+                  <div className="flex flex-col gap-2 2xl:items-center 2xl:justify-center 2xl:text-center">
+                    <Typography variant="h5" color="black">
+                      Drag and Drop or Choose a Local File
                     </Typography>
-                  )}
-                </div>
-              ) : (
-                <div className="flex flex-col col-span-2 gap-2">
-                  <Typography variant="h5" color="black">
-                    Item Image
+                    <Typography variant="small" color="gray">
+                      Supported formats: .png, .jpg, .svg
+                    </Typography>
+                  </div>
+                </label>
+                <input onChange={handleImageChange} id="item-image" type="file" size="lg" className="hidden" />
+                {errors.image && (
+                  <Typography variant="small" color="red">
+                    {errors.image.message}
                   </Typography>
-                  <label
-                    htmlFor="item-image"
-                    className="flex h-full w-fit flex-row items-center gap-4 rounded-lg border border-solid border-neutrals-500 px-4 py-3.5 dark:border-neutrals-600"
-                  >
-                    <Avatar src={selectedImage} alt="avatar" variant="rounded" size="sm" />
-                    <div className="flex flex-col items-center justify-center gap-2">
-                      <Typography variant="h5" color="black">
-                        item-1.jpg
-                      </Typography>
-                      <Typography variant="small" color="gray">
-                        140 KB
-                      </Typography>
-                    </div>
-                    <IconButton variant="text" color="red" onClick={handleRemoveImage}>
-                      <Icon icon="ph:trash-duotone" className="w-5 h-5" />
-                    </IconButton>
-                  </label>
-                  <input id="item-image" type="file" size="lg" className="hidden" />
-                </div>
+                )}
+              </div>
+            ) : (
+              <div className="col-span-2 flex flex-col gap-2">
+                <Typography variant="h5" color="black">
+                  Item Image
+                </Typography>
+                <label
+                  htmlFor="item-image"
+                  className="flex h-full w-fit flex-row items-center gap-4 rounded-lg border border-solid border-neutrals-500 px-4 py-3.5 dark:border-neutrals-600"
+                >
+                  <Avatar src={selectedImage} alt="avatar" variant="rounded" size="sm" />
+                  <div className="flex flex-col items-center justify-center gap-2">
+                    <Typography variant="h5" color="black">
+                      item-1.jpg
+                    </Typography>
+                    <Typography variant="small" color="gray">
+                      140 KB
+                    </Typography>
+                  </div>
+                  <IconButton variant="text" color="red" onClick={handleRemoveImage}>
+                    <Icon icon="ph:trash-duotone" className="h-5 w-5" />
+                  </IconButton>
+                </label>
+                <input id="item-image" type="file" size="lg" className="hidden" />
+              </div>
+            )}
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <Typography variant="h5" color="black">
+                Item Name
+              </Typography>
+              <Input {...register('itemName')} size="lg" />
+              {errors.itemName && (
+                <Typography variant="small" color="red">
+                  {errors.itemName.message}
+                </Typography>
               )}
-              <div className="flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  Item Name
+            </div>
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <Typography variant="h5" color="black">
+                Select A Category
+              </Typography>
+              <Input {...register('category')} size="lg" placeholder="Add up to 3 categories, separated by commas" />
+              {errors.category && (
+                <Typography variant="small" color="red">
+                  {errors.category.message}
                 </Typography>
-                <Input {...register('itemName')} size="lg" />
-                {errors.itemName && (
-                  <Typography variant="small" color="red">
-                    {errors.itemName.message}
-                  </Typography>
-                )}
-              </div>
-              <div className="flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  Select A Category
-                </Typography>
-                <Input {...register('category')} size="lg" placeholder="Add up to 3 categories, separated by commas" />
-                {errors.category && (
-                  <Typography variant="small" color="red">
-                    {errors.category.message}
-                  </Typography>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  {unicodeCurrency()} Price
-                </Typography>
-                <Input {...register('price')} placeholder={unicodeCurrency()} size="lg" />
-                {errors.price && (
-                  <Typography variant="small" color="red">
-                    {errors.price.message}
-                  </Typography>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  {unicodeCurrency()} Cost
-                </Typography>
-                <Input {...register('cost')} placeholder={unicodeCurrency()} size="lg" />
-                {errors.cost && (
-                  <Typography variant="small" color="red">
-                    {errors.cost.message}
-                  </Typography>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  Amount in Stock
-                </Typography>
-                <Input {...register('amountInStock')} size="lg" />
-                {errors.amountInStock && (
-                  <Typography variant="small" color="red">
-                    {errors.amountInStock.message}
-                  </Typography>
-                )}
-              </div>
-
-              <div className="flex flex-col gap-2">
-                <Typography variant="h5" color="black">
-                  Options Available
-                </Typography>
-                <Input {...register('options')} size="lg" placeholder="Add up to 4 options, separated by commas" />
-                {errors.options && (
-                  <Typography variant="small" color="red">
-                    {errors.options.message}
-                  </Typography>
-                )}
-              </div>
+              )}
             </div>
 
-            <div className="flex flex-row justify-end w-full gap-3 p-0">
-              <Button onClick={handleOpen} className="" variant="text" color="gray">
-                Cancel
-              </Button>
-              <Button className="lg:w-fit w-full" disabled={isSubmitting} type="submit">
-                {isSubmitting ? <Icon icon="svg-spinners:6-dots-scale" style={{ color: '#fff' }} /> : 'Add Menu Item'}
-              </Button>
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <Typography variant="h5" color="black">
+                {unicodeCurrency()} Price
+              </Typography>
+              <Input {...register('price')} placeholder={unicodeCurrency()} size="lg" />
+              {errors.price && (
+                <Typography variant="small" color="red">
+                  {errors.price.message}
+                </Typography>
+              )}
+            </div>
+
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <Typography variant="h5" color="black">
+                {unicodeCurrency()} Cost
+              </Typography>
+              <Input {...register('cost')} placeholder={unicodeCurrency()} size="lg" />
+              {errors.cost && (
+                <Typography variant="small" color="red">
+                  {errors.cost.message}
+                </Typography>
+              )}
+            </div>
+
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <Typography variant="h5" color="black">
+                Amount in Stock
+              </Typography>
+              <Input {...register('amountInStock')} size="lg" />
+              {errors.amountInStock && (
+                <Typography variant="small" color="red">
+                  {errors.amountInStock.message}
+                </Typography>
+              )}
+            </div>
+
+            <div className="col-span-2 flex flex-col gap-2 md:col-span-1">
+              <Typography variant="h5" color="black">
+                Options Available
+              </Typography>
+              <Input {...register('options')} size="lg" placeholder="Add up to 4 options, separated by commas" />
+              {errors.options && (
+                <Typography variant="small" color="red">
+                  {errors.options.message}
+                </Typography>
+              )}
             </div>
           </div>
-        </form>
-      </Dialog>
-    </>
+
+          <div className="flex w-full flex-row justify-end gap-3 p-0">
+            <Button onClick={handleOpen} className="" variant="text" color="gray">
+              Cancel
+            </Button>
+            <Button className="w-full lg:w-fit" disabled={isSubmitting} type="submit">
+              {isSubmitting ? <Icon icon="svg-spinners:6-dots-scale" style={{ color: '#fff' }} /> : 'Add Menu Item'}
+            </Button>
+          </div>
+        </div>
+      </form>
+    </Dialog>
   );
 };
 

@@ -12,12 +12,13 @@ import { calculateProgressColor } from '@utils/utils';
 const TableBodyComponent = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [itemId, setItemId] = useState(null);
 
   const setMenuId = useMenuStore((state) => state.setMenuId);
   const menuList = useMenuStore((state) => state.menuList);
 
   const handleOpenEdit = (data) => {
-    setMenuId(data.id);
+    setItemId(data.id);
     setOpenEdit((cur) => !cur);
   };
 
@@ -109,7 +110,7 @@ const TableBodyComponent = () => {
         })}
       </tbody>
 
-      <EditMenuDialog handleOpen={handleOpenEdit} open={openEdit} />
+      <EditMenuDialog itemId={itemId} handleOpen={handleOpenEdit} open={openEdit} />
       <DeleteMenuDialog handleOpen={handleOpenDelete} open={openDelete} />
     </>
   );

@@ -7,7 +7,7 @@ const TableHeaderComponent = () => {
       <tr>
         {tableHead.map((row, index) => (
           <th key={index} className="h-[60px] items-center border-b border-neutrals-200 p-4 dark:border-neutrals-700">
-            <Typography variant="h5" color="gray" className="flex items-center justify-between w-full gap-2">
+            <Typography variant="h5" color="gray" className="flex w-full items-center justify-between gap-2">
               {row}
             </Typography>
           </th>
