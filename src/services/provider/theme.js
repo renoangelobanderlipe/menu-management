@@ -443,7 +443,7 @@ export const theme = {
       placement: 'bottom-end',
       offset: 5,
       dismiss: {
-        itemPress: true,
+        itemPress: false,
       },
       animate: {
         unmount: {},
@@ -476,9 +476,11 @@ export const theme = {
             py: 'pt-2',
             px: 'px-3',
             borderRadius: 'rounded-[8px]',
+            border: 'focus:border-none',
             textAlign: 'text-start',
             lightHeight: 'leading-tight',
-            cursor: 'cursor-pointer',
+            cursor: 'cursor-normal',
+            pointerEvents: 'pointer-events-none',
             userSelect: 'select-none',
             transition: 'transition-all',
             bg: 'hover:bg-transparentfocus:bg-blue-gray-50 focus:bg-opacity-80 active:bg-blue-gray-50 active:bg-opacity-80',
