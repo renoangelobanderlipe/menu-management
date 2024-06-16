@@ -1938,12 +1938,12 @@ export const theme = {
       variants: {
         ghost: {
           blue: {
-            backgroud: "bg-info-100 dark:bg-info-500",
-            color: "text-info-500 dark:text-info-100",
+            backgroud: 'bg-info-100 dark:bg-info-500',
+            color: 'text-info-500 dark:text-info-100',
           },
           red: {
-            backgroud: "bg-danger-100 dark:bg-danger-500",
-            color: "text-danger-500 dark:text-danger-100",
+            backgroud: 'bg-danger-100 dark:bg-danger-500',
+            color: 'text-danger-500 dark:text-danger-100',
           },
         },
       },

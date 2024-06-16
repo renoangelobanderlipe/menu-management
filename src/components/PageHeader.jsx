@@ -5,7 +5,7 @@ import { useState } from 'react';
 import HeaderComponent from './ui/HeaderComponent';
 import AddMenuDialog from './MenuDialog/AddMenuDialog';
 
-const MenuHeader = () => {
+const PageHeader = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen((cur) => !cur);
 
@@ -23,4 +23,4 @@ const MenuHeader = () => {
   );
 };
 
-export default MenuHeader;
+export default PageHeader;

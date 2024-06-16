@@ -1,17 +1,7 @@
 import { Menu, MenuHandler, MenuList, MenuItem, Avatar, Typography } from '@material-tailwind/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useEffect, useState } from 'react';
-
-const profileMenuItems = [
-  {
-    label: 'Settings',
-    icon: 'ph:gear-six-duotone',
-  },
-  {
-    label: 'Sign Out',
-    icon: 'ph:sign-out-duotone',
-  },
-];
+import { profileMenuItems } from '@utils/constants';
 
 const ProfileMenuComponent = ({ items, onLogout }) => {
   const [randomValue, setRandomValue] = useState(1);

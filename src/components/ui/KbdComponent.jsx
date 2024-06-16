@@ -1,10 +1,10 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Input, Typography } from '@material-tailwind/react';
 import { useRef } from 'react';
-import useKeyboardCommands from '../../hooks/useKeyboardCommands';
+import useKeyboardCommands from '@hooks/useKeyboardCommands';
 
 const KbdComponent = ({ onChange }) => {
-  const inputRef = useRef(null); // Ref for the input element
+  const inputRef = useRef(null);
 
   useKeyboardCommands({
     k: {

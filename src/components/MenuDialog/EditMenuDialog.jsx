@@ -1,15 +1,17 @@
 import { Button, Dialog, Typography } from '@material-tailwind/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { menuItemSchema } from '../../utils/validations';
+import { menuItemSchema } from '@utils/validations';
 import { Icon } from '@iconify/react';
-import { useMenuItem } from '../../hooks/useMenuItem';
+import { useMenuItem } from '@hooks/useMenuItem';
 import { useEffect } from 'react';
 import FormInput from '../Input/FormInput';
 import ImageUploader from '../ImageUploader';
+import { unicodeCurrency } from '@utils/formatter';
+import { toast } from 'sonner';
 
-const EditMenuDialog = ({ itemId, handleOpen, open }) => {
-  const { itemData, imageData, setImageData, uploadImage, updateItem, deleteImage } = useMenuItem(itemId);
+const EditMenuDialog = ({ id, handleOpen, open }) => {
+  const { itemData, imageData, setImageData, uploadImage, updateItem, deleteImage } = useMenuItem(id);
 
   const {
     register,
@@ -34,35 +36,32 @@ const EditMenuDialog = ({ itemId, handleOpen, open }) => {
     }
   }, [itemData, reset]);
 
+  // Handle Image Selection
   const handleImageChange = (event) => {
-    const file = event.target.files[0];
+    const file = event.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
       setImageData({ url: URL.createObjectURL(file), file });
     }
   };
 
+  // Form Submission Handler
   const onSubmit = async (data) => {
     try {
-      let imageUrl = imageData.url;
-      let image = imageData.file;
-
-      if (image) {
-        imageUrl = await uploadImage(image);
-      }
-
-      await updateItem({
+      const imageUrl = imageData.file ? await uploadImage(imageData.file) : imageData.url;
+      const formattedData = {
         ...data,
         imageUrl,
         price: parseFloat(data.price),
         cost: parseFloat(data.cost),
         amountInStock: parseInt(data.amountInStock, 10) || 0,
-      });
-
-      handleOpen(true);
+      };
+      await updateItem(formattedData);
+      toast.success('Menu item updated successfully!');
+      handleOpen(false);
     } catch (error) {
-      console.log('err', error);
+      console.error('Error updating menu item:', error);
       setError('root', {
-        message: error,
+        message: 'Error updating menu item. Please try again.',
       });
     }
   };
@@ -95,8 +94,20 @@ const EditMenuDialog = ({ itemId, handleOpen, open }) => {
               errors={errors}
               placeholder="Add up to 3 categories, separated by commas"
             />
-            <FormInput label="Price" register={register} name="price" errors={errors} placeholder="Price" />
-            <FormInput label="Cost" register={register} name="cost" errors={errors} placeholder="Cost" />
+            <FormInput
+              label={`Price (${unicodeCurrency()})`}
+              register={register}
+              name="price"
+              errors={errors}
+              placeholder="Price"
+            />
+            <FormInput
+              label={`Cost (${unicodeCurrency()})`}
+              register={register}
+              name="cost"
+              errors={errors}
+              placeholder="Cost"
+            />
             <FormInput label="Amount in Stock" register={register} name="amountInStock" errors={errors} />
             <FormInput
               label="Options Available"

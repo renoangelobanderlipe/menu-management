@@ -1,29 +1,26 @@
 import { useState } from 'react';
-
 import { Avatar, Chip, IconButton, Progress, Tooltip, Typography } from '@material-tailwind/react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-
 import { useMenuStore } from '@services/state/store';
 import { currencyFormatter } from '@utils/formatter';
-
 import { EditMenuDialog, DeleteMenuDialog } from '@components/index';
 import { calculateProgressColor } from '@utils/utils';
 
 const TableBodyComponent = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
-  const [itemId, setItemId] = useState(null);
+  const [editId, setEditId] = useState(null);
+  const [deleteId, setDeleteId] = useState(null);
 
-  const setMenuId = useMenuStore((state) => state.setMenuId);
   const menuList = useMenuStore((state) => state.menuList);
 
   const handleOpenEdit = (data) => {
-    setItemId(data.id);
+    setEditId(data.id);
     setOpenEdit((cur) => !cur);
   };
 
   const handleOpenDelete = (id) => {
-    setMenuId(id);
+    setDeleteId(id);
     setOpenDelete((cur) => !cur);
   };
 
@@ -50,9 +47,14 @@ const TableBodyComponent = () => {
                 </div>
               </td>
               <td className={classes}>
-                <div className="flex w-max gap-2">
-                  {row?.options &&
-                    row.options.split(',').map((option, index) => <Chip key={index} size="sm" value={option.trim()} />)}
+                <div className="grid max-w-48 grid-cols-4 gap-4">
+                  {row?.options && (
+                    <div className="col-span-4 flex flex-wrap gap-4">
+                      {row.options.split(',').map((option, index) => (
+                        <Chip className="w-fit shrink" key={index} size="sm" value={option.trim()} />
+                      ))}
+                    </div>
+                  )}
                 </div>
               </td>
               <td className={classes}>
@@ -110,8 +112,8 @@ const TableBodyComponent = () => {
         })}
       </tbody>
 
-      <EditMenuDialog itemId={itemId} handleOpen={handleOpenEdit} open={openEdit} />
-      <DeleteMenuDialog handleOpen={handleOpenDelete} open={openDelete} />
+      <EditMenuDialog id={editId} handleOpen={handleOpenEdit} open={openEdit} />
+      <DeleteMenuDialog id={deleteId} handleOpen={handleOpenDelete} open={openDelete} />
     </>
   );
 };

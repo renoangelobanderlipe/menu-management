@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider value={theme}>
       <App />
-      <Toaster richColors expand position="bottom-right" closeButton invert />
+      <Toaster richColors expand position="bottom-right" duration={1900} />
     </ThemeProvider>
   </StrictMode>,
 );
