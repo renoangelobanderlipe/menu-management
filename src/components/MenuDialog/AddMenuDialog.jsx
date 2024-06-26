@@ -44,12 +44,42 @@ const AddMenuDialog = ({ handleOpen, open }) => {
               setValue={setValue}
               errors={errors}
             />
-            <FormInput label="Item Name" register={register} name="itemName" errors={errors} />
-            <FormInput label="Select A Category" register={register} name="category" errors={errors} />
-            <FormInput label={`Price (${unicodeCurrency()})`} register={register} name="price" errors={errors} />
-            <FormInput label={`Cost (${unicodeCurrency()})`} register={register} name="cost" errors={errors} />
-            <FormInput label="Amount in Stock" register={register} name="amountInStock" errors={errors} />
-            <FormInput label="Options Available" register={register} name="options" errors={errors} />
+            <FormInput placeholder="Item Name" label="Item Name" register={register} name="itemName" errors={errors} />
+            <FormInput
+              placeholder="Add up to 3 categories, separated by commas"
+              label="Select A Category"
+              register={register}
+              name="category"
+              errors={errors}
+            />
+            <FormInput
+              placeholder="Price"
+              label={`Price (${unicodeCurrency()})`}
+              register={register}
+              name="price"
+              errors={errors}
+            />
+            <FormInput
+              placeholder="Cost"
+              label={`Cost (${unicodeCurrency()})`}
+              register={register}
+              name="cost"
+              errors={errors}
+            />
+            <FormInput
+              placeholder="Amount in Stock"
+              label="Amount in Stock"
+              register={register}
+              name="amountInStock"
+              errors={errors}
+            />
+            <FormInput
+              placeholder="Add up to 4 options, separated by commas"
+              label="Options Available"
+              register={register}
+              name="options"
+              errors={errors}
+            />
           </div>
 
           <div className="flex w-full flex-row justify-end gap-3 p-0">

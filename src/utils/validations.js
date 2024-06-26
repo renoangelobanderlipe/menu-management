@@ -32,15 +32,15 @@ const menuItemSchema = z.object({
     ),
   price: z.preprocess(
     (arg) => (typeof arg == 'string' ? parseFloat(arg) : arg),
-    z.number().min(0, 'Price must be a positive number'),
+    z.number({ message: "Price must be a valid number" }).min(0, 'Price must be a positive number'),
   ),
   cost: z.preprocess(
     (arg) => (typeof arg == 'string' ? parseFloat(arg) : arg),
-    z.number().min(0, 'Cost must be a number'),
+    z.number({ message: "Cost must be a valid number" }).min(0, 'Cost must be a number'),
   ),
   amountInStock: z.preprocess(
     (arg) => (typeof arg == 'string' ? parseInt(arg) : arg),
-    z.number().min(0, 'Amount in stock must be a positive number'),
+    z.number({ message: "Amount must be a valid number" }).min(0, 'Amount in stock must be a positive number'),
   ),
   options: z
     .string()
